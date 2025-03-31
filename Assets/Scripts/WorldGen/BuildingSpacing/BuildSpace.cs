@@ -1,0 +1,182 @@
+using System;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
+
+[SelectionBase]
+public class BuildSpace : MonoBehaviour
+{
+
+    public readonly static Dictionary<int, Cluster> _merger = new();
+    static event Action<int, int> Merged;
+    public static void ClearClusters() { _merger.Clear(); }
+
+    [SerializeField] List<BuildSpace> _links;
+
+    [SerializeField] int _clusterID;
+
+    readonly static System.Random Random = new System.Random(1);
+
+    [SerializeField] GameObject _gameObject;
+    [SerializeField] bool _update;
+    [SerializeField] MinMax _individualMinMax;
+    [SerializeField] bool _showGizmos;
+    [SerializeField] UnityEngine.Color color = UnityEngine.Color.red;
+
+    bool _isFirst = true;
+
+    void Awake()//ADD CELLS FROM LINKS
+    {
+        if (_isFirst)
+        {
+            _clusterID = gameObject.GetInstanceID();
+
+            
+            Cluster startCluster = new Cluster(1, Random, _clusterID);
+            _merger.Add(_clusterID, startCluster );
+            startCluster.UpdateMinMax(GetGridPosition(transform));
+
+            foreach (BuildSpace link in _links)
+            {
+                link._isFirst = false;
+                link._clusterID = _clusterID;
+                Vector2Int gridPos = GetGridPosition(link.transform);
+
+                startCluster.UpdateMinMax(gridPos);
+                startCluster.Add(link.gameObject.GetInstanceID(), new BuildCell(gridPos));
+            }
+            _individualMinMax = startCluster.MinMax;
+
+            _isFirst = false;
+            
+        }
+    }
+    void OnDrawGizmos()
+    {
+        if (!_showGizmos) return;
+
+        Gizmos.color = color;
+        Vector3 dir = (transform.position - transform.parent.position).normalized * .3f;
+        Gizmos.DrawRay(transform.parent.position, dir);
+        Gizmos.DrawSphere(transform.parent.position+ dir, .1f);
+    }
+
+    void OnEnable()
+    {
+        Merged += OnMerge;
+    }
+
+
+    void OnDisable()
+    {
+        Merged -= OnMerge;
+
+    }
+
+    [ContextMenu("DebugClusterMinMax")]
+    public void DebugClusterMinMax()
+    {
+        Debug.Log($"Cluster: {_clusterID} has :\n{GetCurrentCluster().MinMax}");
+    }
+    
+    [ContextMenu("DebugIndividualMinMax")]
+    public void DebugIndividualMinMax()
+    {
+        Debug.Log($"{_individualMinMax}");
+    }
+
+    [ContextMenu("DebugGridPos")]
+    public void DebugGridPos()
+    {
+        Debug.Log($"{GetGridPosition(transform)}");
+    }
+
+    Cluster GetCurrentCluster()
+    {
+        return _merger[_clusterID];
+    }
+
+    Vector2Int GetGridPosition(Transform target)
+    {
+        Vector3 dir = (target.position - target.parent.position).normalized * .33f;
+
+        Vector3 worldPos = dir + target.parent.position;
+
+        return new Vector2Int(
+            Mathf.FloorToInt(worldPos.x * 3),
+            Mathf.FloorToInt(worldPos.z * 3)
+        );
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        int otherID = other.gameObject.GetInstanceID();
+        
+        bool isInCluster = _merger[_clusterID].ContainsKey(otherID);
+
+        if (isInCluster) return;
+
+        var otherBuildSpace = other.GetComponentInParent<BuildSpace>();
+        //for debugging
+        var obj = Instantiate(_gameObject, other.transform);
+        obj.transform.localPosition = (other as BoxCollider).center;
+
+        if(otherBuildSpace._clusterID != _clusterID)
+        {
+            Merge(this, otherBuildSpace);   
+        }
+
+        bool isInSyncedCluster = _merger[_clusterID].ContainsKey(otherID);
+
+        if (isInSyncedCluster) return;
+        Vector2Int gridPos = GetGridPosition(other.transform);
+        
+        //Debug.Log($"WorldPos: {worldPos}\nGridPos: {gridPos}");
+        BuildCell otherData = new(gridPos);
+        Cluster syncedCluster = _merger[_clusterID];
+        syncedCluster.Add(otherID, otherData);
+
+        syncedCluster.UpdateMinMax(gridPos);
+
+        //if (syncedCluster.MinMax.MaxY - syncedCluster.MinMax.MinY >= 3)
+        //{
+        //    transform.parent.position += Vector3.up;
+        //    Debug.Log("aaa");
+        //}
+        //update cointaining box
+
+        //debugCells = _merger[_clusterID].Values.Select(k => k.Collider).ToList();
+    }
+
+    void Merge(BuildSpace a, BuildSpace b)
+    {
+        Cluster clusterA = _merger[a._clusterID];
+        Cluster clusterB = _merger[b._clusterID];
+
+        foreach (var bData in clusterB.Cells)
+        {
+            if (clusterA.ContainsKey(bData.Key)) continue;
+
+            clusterA.Add(bData.Key, bData.Value);
+        }
+        //var test = clusterA.fake(clusterB.MinMax);
+
+        //if (test.MaxY - test.MinY >= 3)
+        //{
+        //}
+        clusterA.UpdateMinMax(clusterB.MinMax);
+        
+
+        _merger.Remove(b._clusterID);
+        Merged?.Invoke(b._clusterID, a._clusterID);
+        //point to an array and change the array 
+    }
+
+    void OnMerge(int oldClusterID, int newClusterID)
+    {
+        if(_clusterID != oldClusterID) return;
+
+        _clusterID = newClusterID;
+    }
+    //add callback so every object that has the removed clusterID changes it to the persistent clusterID
+}
