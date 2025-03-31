@@ -27,30 +27,29 @@ public class BuildSpace : MonoBehaviour
 
     void Awake()//ADD CELLS FROM LINKS
     {
-        if (_isFirst)
+        if (!_isFirst) return;
+
+        _clusterID = gameObject.GetInstanceID();
+        
+        Cluster startCluster = new (1, Random, _clusterID);
+        _merger.Add(_clusterID, startCluster );
+        startCluster.UpdateMinMax(GetGridPosition(transform));
+
+        foreach (BuildSpace link in _links)
         {
-            _clusterID = gameObject.GetInstanceID();
+            link._isFirst = false;
+            link._clusterID = _clusterID;
+            Vector2Int gridPos = GetGridPosition(link.transform);
 
-            
-            Cluster startCluster = new Cluster(1, Random, _clusterID);
-            _merger.Add(_clusterID, startCluster );
-            startCluster.UpdateMinMax(GetGridPosition(transform));
-
-            foreach (BuildSpace link in _links)
-            {
-                link._isFirst = false;
-                link._clusterID = _clusterID;
-                Vector2Int gridPos = GetGridPosition(link.transform);
-
-                startCluster.UpdateMinMax(gridPos);
-                startCluster.Add(link.gameObject.GetInstanceID(), new BuildCell(gridPos));
-            }
-            _individualMinMax = startCluster.MinMax;
-
-            _isFirst = false;
-            
+            startCluster.UpdateMinMax(gridPos);
+            startCluster.Add(new BuildCell(gridPos));
         }
+        _individualMinMax = startCluster.MinMax;
+
+        _isFirst = false;
+        
     }
+
     void OnDrawGizmos()
     {
         if (!_showGizmos) return;
@@ -110,9 +109,9 @@ public class BuildSpace : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        int otherID = other.gameObject.GetInstanceID();
-        
-        bool isInCluster = _merger[_clusterID].ContainsKey(otherID);
+        Vector2Int gridPos = GetGridPosition(other.transform);
+
+        bool isInCluster = _merger[_clusterID].ContainsKey(gridPos);
 
         if (isInCluster) return;
 
@@ -126,15 +125,14 @@ public class BuildSpace : MonoBehaviour
             Merge(this, otherBuildSpace);   
         }
 
-        bool isInSyncedCluster = _merger[_clusterID].ContainsKey(otherID);
+        bool isInSyncedCluster = _merger[_clusterID].ContainsKey(gridPos);
 
         if (isInSyncedCluster) return;
-        Vector2Int gridPos = GetGridPosition(other.transform);
         
         //Debug.Log($"WorldPos: {worldPos}\nGridPos: {gridPos}");
         BuildCell otherData = new(gridPos);
         Cluster syncedCluster = _merger[_clusterID];
-        syncedCluster.Add(otherID, otherData);
+        syncedCluster.Add(otherData);
 
         syncedCluster.UpdateMinMax(gridPos);
 
@@ -157,7 +155,7 @@ public class BuildSpace : MonoBehaviour
         {
             if (clusterA.ContainsKey(bData.Key)) continue;
 
-            clusterA.Add(bData.Key, bData.Value);
+            clusterA.Add(bData.Value);
         }
         //var test = clusterA.fake(clusterB.MinMax);
 

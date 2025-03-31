@@ -62,29 +62,29 @@ public class WorldSpawner : MonoBehaviour
     [ContextMenu("SpawnHouses")]
     void SpawnHouses()
     {
-        foreach (Cluster cluster in BuildSpace._merger.Values)
-        {
-            foreach (House house in cluster.Houses)
-            {
-                var inst = Instantiate(_housePrefab, _housesContainer);
-                MinMax housePos = house.MinMax;
-                inst.Width = housePos.Width + 1;
-                inst.Depth = housePos.Height + 1;
+        //foreach (Cluster cluster in BuildSpace._merger.Values)
+        //{
+        //    foreach (House house in cluster.Houses)
+        //    {
+        //        var inst = Instantiate(_housePrefab, _housesContainer);
+        //        //MinMax housePos = house.MinMax;
+        //        inst.Width = housePos.Width + 1;
+        //        inst.Depth = housePos.Height + 1;
 
-                inst.transform.localScale = new Vector3(.33333f, .33333f, .33333f);
+        //        inst.transform.localScale = new Vector3(.33333f, .33333f, .33333f);
 
-                Vector3 corner_TL = new
-                (
-                    housePos.MinX + housePos.Width * .5f,
-                    0.81f,
-                    housePos.MinY + housePos.Height * .5f
-                );
-                //magic number 3 is the  scale of the cells
-                corner_TL *= .33333f;
-                inst.transform.position = corner_TL;
-                inst.Generate();
-            }
-        }
+        //        Vector3 corner_TL = new
+        //        (
+        //            housePos.MinX + housePos.Width * .5f,
+        //            0.81f,
+        //            housePos.MinY + housePos.Height * .5f
+        //        );
+        //        //magic number 3 is the  scale of the cells
+        //        corner_TL *= .33333f;
+        //        inst.transform.position = corner_TL;
+        //        inst.Generate();
+        //    }
+        //}
     }
 
     [ContextMenu("GenerateHouses")]
