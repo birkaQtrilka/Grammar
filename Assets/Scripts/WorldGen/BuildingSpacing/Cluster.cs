@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 public class Cluster
@@ -83,23 +84,22 @@ public class Cluster
         {
 
         }
-
         Vector2Int firstPos = Cells.Keys.OrderBy(p => p.x + p.y).FirstOrDefault();
 
         House newHouse;
         bool result=false;
-        int safety = 50;
+        int safety = 1000;
         do
         {
             newHouse = Iterate(firstPos);
 
             AddHouse(newHouse);
-            result = TryGetCell_Y(newHouse,true, out Vector2Int pos);
-            //if (!result) result = TryGetCell_Y(newHouse,false, out pos);
-            if (!result) result = TryGetCell_X(newHouse,true, out pos);
-            //if (!result) result = TryGetCell_X(newHouse,false, out pos);
+            result = TryGetCellUp(newHouse, out Vector2Int pos);
+            if (!result) result = TryGetCellDown(newHouse, out pos);
+            if (!result) result = TryGetCellRight(newHouse, out pos);
+            if (!result) result = TryGetCellLeft(newHouse, out pos);
             firstPos = pos;
-        } while (result && safety -- >0);
+        } while (result && safety-- > 0);
 
     }
     
@@ -107,114 +107,183 @@ public class Cluster
     {
         House house = new(new Rectangle(startPos.x, startPos.y, 1, 1));
         int safety = 50;
-        while (CanExpand_X(house, true) && safety-- > 0)
+        while (CanExpandRight(house) && safety-- > 0)
         {
-            Expand_X(house, true);
-        }
-        while (CanExpand_X(house, false) && safety-- > 0)
-        {
-            Expand_X(house, false);
+            ExpandRight(house);
         }
         safety = 50;
-        while (CanExpand_Y(house, true) && safety-- > 0)
+        while (CanExpandLeft(house) && safety-- > 0)
         {
-            Expand_Y(house, true);
+            ExpandLeft(house);
         }
-        while (CanExpand_Y(house, false) && safety-- > 0)
+        safety = 50;
+        while (CanExpandUp(house) && safety-- > 0)
         {
-            Expand_Y(house, false);
+            ExpandUp(house);
+        }
+        safety = 50;
+        while (CanExpandDown(house) && safety-- > 0)
+        {
+            ExpandDown(house);
         }
         return house;
     }
 
-    bool TryGetCell_Y(House house,bool up, out Vector2Int pos)
+    bool TryGetCellUp(House house, out Vector2Int pos)
     {
-        int upPos = GetYOffset(house, up);
+        int upPos = house.Rect.Y + house.Rect.Height;
         for (int x = 0; x < house.Rect.Width; x++)
         {
             pos = new Vector2Int(house.Rect.X + x, upPos);
-            if (IsAvailableCell(pos)) return true; 
+            if (!Cells.TryGetValue(pos, out BuildCell cell) || cell.Taken) continue;
+            return true;
         }
         pos = default;
         return false;
     }
 
-    bool TryGetCell_X(House house, bool right, out Vector2Int pos)
+    bool TryGetCellDown(House house, out Vector2Int pos)
     {
-        int rightPos = GetXOffset(house, right);
-        for (int y = 0; y < house.Rect.Height; y++)
+        int upPos = house.Rect.Y -1;
+        for (int x = 0; x < house.Rect.Width; x++)
         {
-            pos = new Vector2Int(rightPos, house.Rect.Y + y);
-            if (IsAvailableCell(pos)) return true; ;
+            pos = new Vector2Int(house.Rect.X + x, upPos);
+            if (!Cells.TryGetValue(pos, out BuildCell cell) || cell.Taken) continue;
+            return true;
         }
         pos = default;
         return false;
     }
-    
-    void Expand_Y(House house, bool up)
+
+    bool TryGetCellRight(House house, out Vector2Int pos)
     {
-        int upPos = GetYOffset(house, up);
+        int rightPos = house.Rect.X + house.Rect.Width;
+        for (int y = 0; y < house.Rect.Height; y++)
+        {
+            pos = new Vector2Int(rightPos, house.Rect.Y + y);
+            if (!Cells.TryGetValue(pos, out BuildCell cell) || cell.Taken) continue;
+            return true;
+        }
+        pos = default;
+        return false;
+    }
+
+    bool TryGetCellLeft(House house, out Vector2Int pos)
+    {
+        int rightPos = house.Rect.X - 1;
+        for (int y = 0; y < house.Rect.Height; y++)
+        {
+            pos = new Vector2Int(rightPos, house.Rect.Y + y);
+            if (!Cells.TryGetValue(pos, out BuildCell cell) || cell.Taken) continue;
+            return true;
+        }
+        pos = default;
+        return false;
+    }
+
+    void ExpandUp(House house)
+    {
+        int upPos = house.Rect.Y + house.Rect.Height;
         for (int x = 0; x < house.Rect.Width; x++)
-            Cells[new Vector2Int(house.Rect.X + x, upPos)].MarkTaken();
+        {
+            var pos = new Vector2Int(house.Rect.X + x, upPos);
+            Cells[pos] = new BuildCell(pos, true);
+        }
 
         Rectangle expandedRect = new(house.Rect.Location, new Size(house.Rect.Width, house.Rect.Height + 1));
         house.Rect = expandedRect;
     }
 
-    void Expand_X(House house, bool right)
+    void ExpandDown(House house)
     {
-        int rightPos = GetXOffset(house, right);
+        Rectangle houseR = house.Rect;
+        int upPos = houseR.Y  -1;
+        for (int x = 0; x < houseR.Width; x++)
+        {
+            var pos = new Vector2Int(houseR.X + x, upPos);
+            Cells[pos] = new BuildCell(pos, true);
+        }
+
+        Rectangle expandedRect = new(houseR.X,houseR.Y-1, houseR.Width, houseR.Height + 1);
+        house.Rect = expandedRect;
+    }
+
+    void ExpandRight(House house)
+    {
+        int rightPos = house.Rect.X + house.Rect.Width;
         for (int y = 0; y < house.Rect.Height; y++)
-            Cells[new Vector2Int(rightPos, house.Rect.Y + y)].MarkTaken();
-        //I need to expand this right
+        {
+            var pos = new Vector2Int(rightPos, house.Rect.Y + y);
+            Cells[pos] = new BuildCell(pos,true);
+
+        }
+
         Rectangle expandedRect = new(house.Rect.Location, new Size(house.Rect.Width + 1, house.Rect.Height));
         house.Rect = expandedRect;
     }
 
-    bool CanExpand_X(House house, bool right)
+    void ExpandLeft(House house)
     {
-        int rightPos = GetXOffset(house, right);
-        if (GetSideDiff(house.Rect.Width + 1, house.Rect.Height) > _maxSideDifference) return false;
+        Rectangle houseR = house.Rect;
+        int rightPos = houseR.X - 1;
+        for (int y = 0; y < houseR.Height; y++)
+        {
+            var pos = new Vector2Int(rightPos, houseR.Y + y);
+            Cells[pos] = new BuildCell(pos, true);
+        }
+        //shifting to left and expanding
+        Rectangle expandedRect = new(houseR.X-1,houseR.Y, houseR.Width + 1, houseR.Height);
+        house.Rect = expandedRect;
+    }
+
+    bool CanExpandRight(House house)
+    {
+        int rightPos = house.Rect.X + house.Rect.Width;
+        if (Mathf.Abs(house.Rect.Width + 1 - house.Rect.Height) > _maxSideDifference) return false;
 
         for (int y = 0; y < house.Rect.Height; y++)
         {
-            if(!IsAvailableCell(new Vector2Int(rightPos, house.Rect.Y + y))) return false;
+            if(!Cells.TryGetValue(new Vector2Int(rightPos, house.Rect.Y + y), out BuildCell cell) || cell.Taken) return false;
         }
 
         return true;
     }
 
-    bool CanExpand_Y(House house, bool up)
+    bool CanExpandLeft(House house)
     {
-        int upPos = GetYOffset(house, up);
-        if (GetSideDiff(house.Rect.Width, house.Rect.Height + 1) > _maxSideDifference) return false;
+        int rightPos = house.Rect.X - 1;
+        if (Mathf.Abs(house.Rect.Width + 1 - house.Rect.Height) > _maxSideDifference) return false;
 
+        for (int y = 0; y < house.Rect.Height; y++)
+        {
+            if (!Cells.TryGetValue(new Vector2Int(rightPos, house.Rect.Y + y), out BuildCell cell) || cell.Taken) return false;
+        }
+
+        return true;
+    }
+
+    bool CanExpandUp(House house)
+    {
+        int upPos = house.Rect.Y + house.Rect.Height;
+        if (Mathf.Abs(house.Rect.Width - (house.Rect.Height + 1)) > _maxSideDifference) return false;
         for (int x = 0; x < house.Rect.Width; x++)
         {
-            if(!IsAvailableCell(new Vector2Int(house.Rect.X + x, upPos))) return false;
+            if(!Cells.TryGetValue(new Vector2Int(house.Rect.X + x, upPos), out BuildCell cell) || cell.Taken) return false;
         }
 
         return true;
     }
 
-    bool IsAvailableCell(Vector2Int pos)
+    bool CanExpandDown(House house)
     {
-        return Cells.TryGetValue(pos, out BuildCell cell) && !cell.Taken;
-    }
+        int upPos = house.Rect.Y - 1;
+        if (Mathf.Abs(house.Rect.Width - (house.Rect.Height + 1)) > _maxSideDifference) return false;
+        for (int x = 0; x < house.Rect.Width; x++)
+        {
+            if (!Cells.TryGetValue(new Vector2Int(house.Rect.X + x, upPos), out BuildCell cell) || cell.Taken) return false;
+        }
 
-    int GetSideDiff(int w, int h)
-    {
-        return Mathf.Abs(w - h);
-    }
-
-    int GetYOffset(House house, bool up)
-    {
-        return house.Rect.Y + (up ? house.Rect.Height : -1);
-    }
-
-    int GetXOffset(House house, bool right)
-    {
-        return house.Rect.X + (right ? house.Rect.Width : -1);
+        return true;
     }
 
     void AddHouse(House house)
@@ -247,6 +316,7 @@ public class Cluster
         //    Debug.Log(ID);
         //}
         int j = 0;
+        i = 0;
         foreach (House house in _houses)
         {
             //float x = house.MinMax.MinX;
@@ -277,7 +347,7 @@ public class Cluster
 
             Gizmos.color = _debugClr;
             Gizmos.DrawLineList(arr);
-            j++;
+            //j++;
         }
     }
 

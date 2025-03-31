@@ -1,7 +1,5 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-[Serializable]
 public struct BuildCell
 {
     public Vector2Int Position;
@@ -11,6 +9,13 @@ public struct BuildCell
         Position = position;
         Taken = false;
     }
-
-    public void MarkTaken() { Taken = true; }
+    public BuildCell(Vector2Int position, bool taken)
+    {
+        Position = position;
+        Taken = taken;
+    }
+    public void MarkTaken() 
+    { 
+        Taken = true; 
+    }
 }
