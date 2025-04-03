@@ -227,10 +227,15 @@ public class WorldGenConfigDrawer : Editor
     {
         Tile tile = SO.Grid[y, x].tile;
         //showing if selected tiles have valid connections
-        if (!IsEmpty(tile) && !AllValidConnections(x, y, tile, SO.Grid))
-            GUI.backgroundColor = Color.red;
-        else if (!IsEmpty(tile))
-            GUI.backgroundColor = Color.green;
+        if(!IsEmpty(tile))
+        {
+            if (!AllValidConnections(x, y, tile, SO.Grid))
+                GUI.backgroundColor = Color.red;
+            else if(tile.Manual)
+                GUI.backgroundColor = Color.blue;
+            else
+                GUI.backgroundColor = Color.green;
+        }
         else
             GUI.backgroundColor = new Color(0.76f, 0.76f, 0.76f); ;//default color
     }

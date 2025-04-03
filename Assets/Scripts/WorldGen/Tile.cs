@@ -20,7 +20,7 @@ public class Tile
     public Sockets Sockets => _sockets;
     [field: SerializeField] public GameObject Prefab { get; private set; }
     [HideInInspector] public float Rotation;
-
+    public bool Manual; 
     [Range(0, 1)] public float SpawnChance;
 
     public override string ToString()
@@ -33,12 +33,13 @@ public class Tile
         
     }
 
-    private Tile(GameObject prefab, float rotation, Sockets sockets, float spawnChance) 
+    private Tile(GameObject prefab, float rotation, Sockets sockets, float spawnChance, bool manual) 
     {
         Rotation = rotation;
         _sockets = sockets;
         Prefab = prefab;
         SpawnChance = spawnChance;
+        Manual = manual;
     }
 
     public void Rotate()
@@ -49,7 +50,7 @@ public class Tile
 
     public Tile Clone()
     {
-        Tile nt = new(Prefab, Rotation, _sockets.Clone(), SpawnChance);
+        Tile nt = new(Prefab, Rotation, _sockets.Clone(), SpawnChance, Manual);
         return nt;
     }
 

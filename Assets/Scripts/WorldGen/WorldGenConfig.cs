@@ -16,6 +16,7 @@ public class WorldGenConfig : ScriptableObject
 
     public int Columns = 4;
     public int SocketsCount = 3;
+    //public List<Tile> ManualTiles = new();
     public List<Tile> AvailableTiles = new();
     public GridCellCollection Grid = new(5);
     public ColorForSocket[] SocketColors;
@@ -51,7 +52,8 @@ public class WorldGenConfig : ScriptableObject
     {
         Done = false;
         _random = new System.Random(seed);
-        var rotatedTiles = AvailableTiles.Concat(GenerateRotatedTileStates(AvailableTiles)).ToArray();
+        var proceduralTiles = AvailableTiles.Where(t => !t.Manual);
+        var rotatedTiles = proceduralTiles.Concat(GenerateRotatedTileStates(proceduralTiles)).ToArray();
         _prePlacedCells.Clear();
         //any pre placed tiles should be here for optimization
 
@@ -88,7 +90,7 @@ public class WorldGenConfig : ScriptableObject
             CollapseCell(Grid[Columns-1, x], emptyTile);
     }
 
-    List<Tile> GenerateRotatedTileStates(List<Tile> unrotatedTiles)
+    List<Tile> GenerateRotatedTileStates(IEnumerable<Tile> unrotatedTiles)
     {
         List<Tile> rotatedTiles = new();
 
