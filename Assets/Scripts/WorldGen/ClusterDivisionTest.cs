@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -23,6 +22,7 @@ public class ClusterDivisionTest : MonoBehaviour
         yield return new WaitForFixedUpdate();
         if(_generateOnSpawn) GenerateHouses();
     }
+
     [ContextMenu("CleanupLonelyClusters")]
     public void CleanupLonelyClusters()
     {
@@ -30,8 +30,6 @@ public class ClusterDivisionTest : MonoBehaviour
         {
             cluster.GenerateHouses();
             cluster.Draw(_housePrefab.transform, _clusterContainer, _housesContainer);
-            //Debug.Log(cluster.MinMax);
-
         }
     }
 
@@ -41,8 +39,6 @@ public class ClusterDivisionTest : MonoBehaviour
         foreach (Cluster cluster in BuildSpace._merger.Values)
         {
             cluster.GenerateHouses();
-            //Debug.Log(cluster.MinMax);
-
         }
     }
     
@@ -52,8 +48,6 @@ public class ClusterDivisionTest : MonoBehaviour
         foreach (Cluster cluster in BuildSpace._merger.Values)
         {
             cluster.Draw(_housePrefab.transform, _clusterContainer, _housesContainer);
-            //Debug.Log(cluster.MinMax);
-
         }
     }
 
@@ -66,9 +60,6 @@ public class ClusterDivisionTest : MonoBehaviour
         foreach (Cluster cluster in BuildSpace._merger.Values)
         {
             Debug.Log("Cluster id: " + cluster.ID);
-
-            Debug.Log(cluster.MinMax);
-
         }
     }
 
@@ -89,16 +80,6 @@ public class ClusterDivisionTest : MonoBehaviour
         Gizmos.color = _minMaxClr;
         foreach (Cluster cluster in clusters)
         {
-            if(_showIndividualClusters)
-            {
-                if (i == _currentDebuggedCluster)
-                    cluster.DrawMinMax();
-
-            }
-            else
-            {
-                cluster.DrawMinMax();
-            }
             if(_drawCells) 
                 cluster.DrawCells(i);
             i++;

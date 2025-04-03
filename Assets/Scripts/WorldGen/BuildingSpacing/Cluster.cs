@@ -6,16 +6,14 @@ using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
-using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 public class Cluster
 {
     public Dictionary<Vector2Int, BuildCell> Cells = new();
     public ReadOnlyCollection<House> Houses { get; private set; }
     public int MinimumHousePerimeter { get; set; }
-    public MinMax MinMax => _minMax;
-    MinMax _minMax;
+    //public MinMax MinMax => _minMax;
+    //MinMax _minMax;
 
 
     readonly Queue<Vector2Int> _toDoHouses = new();
@@ -35,12 +33,10 @@ public class Cluster
     {
         MinimumHousePerimeter = minimumHousePerimeter;
         _random = random;
-        //_minHouses = minHouses;
         _maxArea = maxArea;
         _maxSideDifference = maxSideDifference;
         _splitChance = splitChance;
         ID = id;
-        _minMax = new MinMax(true);
         _debugClr  = UnityEngine.Random.ColorHSV(0f,1f,1f,1f,1f,1f);
         Houses = new(_houses);
     }
@@ -60,23 +56,6 @@ public class Cluster
         Cells.Remove(cell.Position);
     }
 
-    public void UpdateMinMax(Vector2Int gridPos)
-    {
-        if (gridPos.x < _minMax.MinX) _minMax.MinX = gridPos.x;
-        if (gridPos.x > _minMax.MaxX) _minMax.MaxX = gridPos.x;
-
-        if (gridPos.y < _minMax.MinY) _minMax.MinY = gridPos.y;
-        if (gridPos.y > _minMax.MaxY) _minMax.MaxY = gridPos.y;
-    }
-
-    public void UpdateMinMax(MinMax minMax)
-    {
-        if (minMax.MinX < _minMax.MinX) _minMax.MinX = minMax.MinX;
-        if (minMax.MaxX > _minMax.MaxX) _minMax.MaxX = minMax.MaxX;
-
-        if (minMax.MinY < _minMax.MinY) _minMax.MinY = minMax.MinY;
-        if (minMax.MaxY > _minMax.MaxY) _minMax.MaxY = minMax.MaxY;
-    }
     public void GenerateHouses()
     {
         Vector2Int firstPos = Cells.Keys.OrderBy(p => p.x + p.y).FirstOrDefault();
@@ -309,10 +288,6 @@ public class Cluster
 
     public void DrawCells(int i)
     {
-        //if (ID == 26644)
-        //{
-        //    Debug.Log(ID);
-        //}
         int j = 0;
         i = 0;
         foreach (House house in _houses)
@@ -349,27 +324,4 @@ public class Cluster
         }
     }
 
-    public void DrawMinMax()
-    {
-        //if (Cells.Count == 0)
-        //{
-        //    return;
-        //}
-        var corner_TL = new Vector3(_minMax.MinX,     1, _minMax.MinY);
-        var corner_TR = new Vector3(_minMax.MaxX + 1, 1, _minMax.MinY);
-        var corner_BR = new Vector3(_minMax.MaxX + 1, 1, _minMax.MaxY + 1);
-        var corner_BL = new Vector3(_minMax.MinX,     1, _minMax.MaxY + 1);
-
-        corner_TL /= 3f;
-        corner_TR /= 3f;
-        corner_BR /= 3f;
-        corner_BL /= 3f;
-
-        //Gizmos.color = _debugClr;
-        Handles.color = _debugClr;
-        Handles.DrawLine(corner_TL, corner_TR, 3);
-        Handles.DrawLine(corner_TR, corner_BR, 3);
-        Handles.DrawLine(corner_BR, corner_BL, 3);
-        Handles.DrawLine(corner_BL, corner_TL, 3);
-    }
 }
