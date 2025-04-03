@@ -97,7 +97,8 @@ public class BuildSpace : MonoBehaviour
 
     Vector2Int GetGridPosition(Transform target)
     {
-        Vector3 dir = (target.position - target.parent.position).normalized * .33f;
+        Vector3 dir = (target.position - target.parent.position);
+        if (dir.magnitude > float.Epsilon) dir = dir.normalized * .33f;
 
         Vector3 worldPos = dir + target.parent.position;
 

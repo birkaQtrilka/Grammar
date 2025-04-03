@@ -18,7 +18,7 @@ public class Cluster
     MinMax _minMax;
 
 
-    readonly Queue<House> _toDoHouses = new();
+    readonly Queue<Vector2Int> _toDoHouses = new();
     readonly List<House> _houses = new();
 
 
@@ -77,35 +77,33 @@ public class Cluster
         if (minMax.MinY < _minMax.MinY) _minMax.MinY = minMax.MinY;
         if (minMax.MaxY > _minMax.MaxY) _minMax.MaxY = minMax.MaxY;
     }
-    
     public void GenerateHouses()
     {
-        if(ID == 42286)
-        {
-
-        }
         Vector2Int firstPos = Cells.Keys.OrderBy(p => p.x + p.y).FirstOrDefault();
-
+        _toDoHouses.Enqueue(firstPos);
         House newHouse;
-        bool result=false;
         int safety = 1000;
         do
         {
-            newHouse = Iterate(firstPos);
-
+            newHouse = Iterate(_toDoHouses.Dequeue());
+            if(newHouse == null) continue;
             AddHouse(newHouse);
-            result = TryGetCellUp(newHouse, out Vector2Int pos);
-            if (!result) result = TryGetCellDown(newHouse, out pos);
-            if (!result) result = TryGetCellRight(newHouse, out pos);
-            if (!result) result = TryGetCellLeft(newHouse, out pos);
-            firstPos = pos;
-        } while (result && safety-- > 0);
+            //TODO: shuffle the directions, so it's more random
+            if (TryGetCellUp(newHouse, out Vector2Int pos)) _toDoHouses.Enqueue(pos);
+            if (TryGetCellDown(newHouse, out pos)) _toDoHouses.Enqueue(pos);
+            if (TryGetCellRight(newHouse, out pos)) _toDoHouses.Enqueue(pos);
+            if (TryGetCellLeft(newHouse, out pos)) _toDoHouses.Enqueue(pos);
+        } while (_toDoHouses.Count != 0 && safety-- > 0);
 
     }
     
     House Iterate(Vector2Int startPos)
     {
+        //check if I can put the house here, if not, return null
+        if (!Cells.TryGetValue(startPos, out BuildCell cell) || cell.Taken)
+            return null;
         House house = new(new Rectangle(startPos.x, startPos.y, 1, 1));
+        Cells[startPos] = new(startPos, true);
         int safety = 50;
         while (CanExpandRight(house) && safety-- > 0)
         {

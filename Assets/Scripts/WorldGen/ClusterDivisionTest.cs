@@ -11,8 +11,18 @@ public class ClusterDivisionTest : MonoBehaviour
     [SerializeField] Color _minMaxClr = Color.red;
     [SerializeField] bool _showIndividualClusters;
     [SerializeField] bool _drawCells;
+    [SerializeField] bool _generateOnSpawn;
     int _currentDebuggedCluster;
+    void Start()
+    {
+        StartCoroutine(a());   
+    }
 
+    IEnumerator a()
+    {
+        yield return new WaitForFixedUpdate();
+        if(_generateOnSpawn) GenerateHouses();
+    }
     [ContextMenu("CleanupLonelyClusters")]
     public void CleanupLonelyClusters()
     {
