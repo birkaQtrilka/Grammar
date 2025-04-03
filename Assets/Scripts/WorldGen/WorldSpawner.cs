@@ -20,12 +20,13 @@ public class WorldSpawner : MonoBehaviour
     [SerializeField] SimpleStock _housePrefab;
     [SerializeField] Transform _housesContainer;
     float _cellWidth;
-
+    [SerializeField] bool _generateHousesOnStart;
+    [SerializeField] bool _spawnHousesOnStart;
     void Start()
     {
         if(_spawnOnStart)
-            SpawnMap(false);   
-
+            SpawnMap(false);
+        StartCoroutine(AfterClusterFormation());
     }
 
     void SpawnMap(bool random)
@@ -55,7 +56,12 @@ public class WorldSpawner : MonoBehaviour
     IEnumerator AfterClusterFormation()
     {
         yield return _clusterMergingTime;
-        GenerateHouses();
+        if(_generateHousesOnStart)
+        {
+            GenerateHouses();
+            if(_spawnHousesOnStart)
+                SpawnHouses();
+        }
 
     }
 
@@ -68,21 +74,21 @@ public class WorldSpawner : MonoBehaviour
             {
                 var inst = Instantiate(_housePrefab, _housesContainer);
                 Rectangle housePos = house.Rect;
-                inst.Width = housePos.Width + 1;
-                inst.Depth = housePos.Height + 1;
-
-                inst.transform.localScale = new Vector3(.33333f, .33333f, .33333f);
+                inst.Width = housePos.Width ;
+                inst.Depth = housePos.Height;
+                inst.Generate();
+                var randomScale = Random.Range(.4f, .9f);
+                inst.transform.localScale = new Vector3(.33333f, .33333f, .33333f)* randomScale;
 
                 Vector3 corner_TL = new
                 (
-                    housePos.X + housePos.Width * .5f,
+                    housePos.X  + housePos.Width * .5f,
                     0.81f,
-                    housePos.X + housePos.Height * .5f
+                    housePos.Y + housePos.Height * .5f 
                 );
                 //magic number 3 is the  scale of the cells
                 corner_TL *= .33333f;
                 inst.transform.position = corner_TL;
-                inst.Generate();
             }
         }
     }
