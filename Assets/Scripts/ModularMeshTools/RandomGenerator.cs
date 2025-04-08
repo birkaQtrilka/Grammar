@@ -21,8 +21,11 @@ public class RandomGenerator : MonoBehaviour {
 	public int Next(int maxValue) {
 		return Rand.Next(maxValue);
 	}
-
-	public System.Random Rand {
+    public int Next(int minValue, int maxValue)
+    {
+        return Rand.Next(minValue, maxValue);
+    }
+    public System.Random Rand {
 		get {
 			if (rand==null) {
 				ResetRandom();

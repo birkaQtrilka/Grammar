@@ -96,12 +96,23 @@ namespace Demo {
 			return copy;
 		}
 
-		/// <summary>
-		/// Returns a random integer between 0 and MaxValue-1 (inclusive). 
-		/// Uses The RandomGenerator attached to the root object, if that's there.
-		/// If you extend the RandomGenerator class, you can get seeded pseudo random numbers this way.
-		/// </summary>
-		protected int RandomInt(int maxValue) {
+        protected T SpawnPrefab<T>(T prefab, Vector3 localPosition = new Vector3(), Quaternion localRotation = new Quaternion(), Transform parent = null) where T : MonoBehaviour
+        {
+            if (parent == null)
+                parent = transform; // default: add as child game object
+            T copy = Instantiate(prefab, parent);
+            copy.transform.SetLocalPositionAndRotation(localPosition, localRotation);
+            copy.transform.localScale = new Vector3(1, 1, 1);
+            AddGenerated(copy.gameObject);
+            return copy;
+        }
+
+        /// <summary>
+        /// Returns a random integer between 0 and MaxValue-1 (inclusive). 
+        /// Uses The RandomGenerator attached to the root object, if that's there.
+        /// If you extend the RandomGenerator class, you can get seeded pseudo random numbers this way.
+        /// </summary>
+        protected int RandomInt(int maxValue) {
 			RandomGenerator rnd = Root.GetComponent<RandomGenerator>();
 			if (rnd!=null) {
 				return rnd.Next(maxValue);
@@ -109,13 +120,24 @@ namespace Demo {
 				return Random.Range(0, maxValue);
 			}
 		}
-
-		/// <summary>
-		/// Returns a random float between 0 and 1. 
-		/// Uses The RandomGenerator attached to the root object, if that's there.
-		/// If you extend the RandomGenerator class, you can get seeded pseudo random numbers this way.
-		/// </summary>
-		protected float RandomFloat() {
+        protected int RandomInt(int minValue,int maxValue)
+        {
+            RandomGenerator rnd = Root.GetComponent<RandomGenerator>();
+            if (rnd != null)
+            {
+                return rnd.Next(minValue, maxValue);
+            }
+            else
+            { // use Unity's random
+                return Random.Range(minValue, maxValue);
+            }
+        }
+        /// <summary>
+        /// Returns a random float between 0 and 1. 
+        /// Uses The RandomGenerator attached to the root object, if that's there.
+        /// If you extend the RandomGenerator class, you can get seeded pseudo random numbers this way.
+        /// </summary>
+        protected float RandomFloat() {
 			RandomGenerator rnd = Root.GetComponent<RandomGenerator>();
 			if (rnd!=null) {
 				return (float)(rnd.Rand.NextDouble());

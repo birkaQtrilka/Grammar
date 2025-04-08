@@ -34,12 +34,13 @@ public class WorldSpawner : MonoBehaviour
     public static Transform _cameraSpot { get;private set; }
     static float _lodDist;
     public static bool TooFar(Vector3 pos) => Vector3.Distance(pos, _cameraSpot.position) > _lodDist;
+    public static bool LOD_Enabled { get; private set; }
     //public static GameObject GetPrefabByDistance(Vector3 pos) =
     void Start()
     {
         _cameraSpot = _cameraSpotTr;
         _lodDist = _lodDistance;
-
+        LOD_Enabled = true;
         if(_spawnOnStart)
             SpawnMap(false);
         StartCoroutine(AfterClusterFormation());
@@ -118,10 +119,11 @@ public class WorldSpawner : MonoBehaviour
                 float dist = Vector3.Distance(corner_TL, _heightCenter.position);
                 float t = Mathf.Clamp01(dist / _heightChangeRange);
                 t = 1 - t;
-                float buildingHeight = _minHeightCurve.Evaluate(t) * (_maxBuildingHeight - _minBuildingHeight) + _minBuildingHeight;
+                float buildingMinHeight = _minHeightCurve.Evaluate(t) * (_maxBuildingHeight - _minBuildingHeight) + _minBuildingHeight;
+                float buildingChance = _heightIncreaseChanceCurve.Evaluate(t);
 
-                inst.MinHeight = (int)buildingHeight;
-
+                inst.MinHeight = (int)buildingMinHeight;
+                inst.stockContinueChance = buildingChance;
                 inst.transform.position = corner_TL;
                 inst.Generate();
 

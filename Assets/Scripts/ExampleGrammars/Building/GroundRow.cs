@@ -28,7 +28,7 @@ namespace Demo
             if (Number <= 0)
                 return;
             int doorIndex = RandomInt(Number);
-            bool tooFar = WorldSpawner.TooFar(transform.position);
+            bool tooFar = WorldSpawner.LOD_Enabled && WorldSpawner.TooFar(transform.position);
 
             for (int i = 0; i < Number; i++)
             {   // spawn the prefabs, randomly chosen

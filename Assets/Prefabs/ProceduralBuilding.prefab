@@ -48,6 +48,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildDelay: 0.1
   stockContinueChance: 0.5
+  billBoardSpawnChance: 0.4
+  billBoardMinHeight: 2
   MinHeight: 1
   Width: 4
   Depth: 4
@@ -63,6 +65,8 @@ MonoBehaviour:
   _groundDoor:
     High: {fileID: -927199367670048503, guid: 878d7f23d69aa4545a723f41f6d5707e, type: 3}
     Low: {fileID: 3389769321135412885, guid: 48459b8757c0a074889d454ecf68735e, type: 3}
+  billboards:
+  - {fileID: 2458497736491260231, guid: 3705386b28c3df0408136edeaa0a042b, type: 3}
 --- !u!114 &8345122083041106080
 MonoBehaviour:
   m_ObjectHideFlags: 0

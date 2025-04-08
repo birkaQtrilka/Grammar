@@ -20,9 +20,9 @@ namespace Demo {
 		protected override void Execute() {
 			if (Number<=0)
 				return;
-			bool tooFar = WorldSpawner.TooFar(transform.position);
+            bool tooFar = WorldSpawner.LOD_Enabled && WorldSpawner.TooFar(transform.position);
 
-			for (int i=0;i<Number;i++) {	// spawn the prefabs, randomly chosen
+            for (int i=0;i<Number;i++) {	// spawn the prefabs, randomly chosen
 				int index = RandomInt(prefabs.Length); // choose a random prefab index
 				
 				SpawnPrefab( tooFar ? prefabs[index].Low : prefabs[index].High,
