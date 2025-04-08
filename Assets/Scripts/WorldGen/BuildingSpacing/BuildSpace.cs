@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -61,7 +62,6 @@ public class BuildSpace : MonoBehaviour
         Merged += OnMerge;
     }
 
-
     void OnDisable()
     {
         Merged -= OnMerge;
@@ -72,11 +72,6 @@ public class BuildSpace : MonoBehaviour
     public void DebugGridPos()
     {
         Debug.Log($"{GetGridPosition(transform)}");
-    }
-
-    Cluster GetCurrentCluster()
-    {
-        return _merger[_clusterID];
     }
 
     Vector2Int GetGridPosition(Transform target)
@@ -98,6 +93,7 @@ public class BuildSpace : MonoBehaviour
 
         bool isInCluster = _merger[_clusterID].ContainsKey(gridPos);
 
+        StartCoroutine(DestroySelf());
         if (isInCluster) return;
 
         var otherBuildSpace = other.GetComponentInParent<BuildSpace>();
@@ -114,7 +110,12 @@ public class BuildSpace : MonoBehaviour
         BuildCell otherData = new(gridPos);
         Cluster syncedCluster = _merger[_clusterID];
         syncedCluster.Add(otherData);
+    }
 
+    IEnumerator DestroySelf()
+    {
+        yield return null;
+        Destroy(gameObject);
     }
 
     void Merge(BuildSpace a, BuildSpace b)

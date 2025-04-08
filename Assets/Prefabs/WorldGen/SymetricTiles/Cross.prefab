@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1312234233258494159}
   - component: {fileID: 9210363834684150074}
   - component: {fileID: 3447382149172288057}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cross
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,6 +54,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

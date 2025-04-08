@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4875050085914922241}
   - component: {fileID: 2666662070952770484}
   - component: {fileID: -5235243703596449163}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: T
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,6 +55,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -211,17 +214,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3384206782399909857, guid: b04444f1a7cd49749bfc31b1728f1251,
         type: 3}
-      propertyPath: _links.Array.data[0]
+      propertyPath: '_links.Array.data[0]'
       value: 
       objectReference: {fileID: 2068186483495266607}
     - target: {fileID: 3384206782399909857, guid: b04444f1a7cd49749bfc31b1728f1251,
         type: 3}
-      propertyPath: _links.Array.data[1]
+      propertyPath: '_links.Array.data[1]'
       value: 
       objectReference: {fileID: 1968408336310395696}
     - target: {fileID: 3384206782399909857, guid: b04444f1a7cd49749bfc31b1728f1251,
         type: 3}
-      propertyPath: _links.Array.data[2]
+      propertyPath: '_links.Array.data[2]'
       value: 
       objectReference: {fileID: 7969709596732887440}
     - target: {fileID: 3831272573870039638, guid: b04444f1a7cd49749bfc31b1728f1251,
@@ -386,17 +389,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6788313081501981375, guid: c18e8195f98a9024ca4b434a991410fa,
         type: 3}
-      propertyPath: _links.Array.data[0]
+      propertyPath: '_links.Array.data[0]'
       value: 
       objectReference: {fileID: 2068186483495266607}
     - target: {fileID: -6788313081501981375, guid: c18e8195f98a9024ca4b434a991410fa,
         type: 3}
-      propertyPath: _links.Array.data[1]
+      propertyPath: '_links.Array.data[1]'
       value: 
       objectReference: {fileID: 1968408336310395696}
     - target: {fileID: -6788313081501981375, guid: c18e8195f98a9024ca4b434a991410fa,
         type: 3}
-      propertyPath: _links.Array.data[2]
+      propertyPath: '_links.Array.data[2]'
       value: 
       objectReference: {fileID: 7969709596732887440}
     - target: {fileID: 606526533327966737, guid: c18e8195f98a9024ca4b434a991410fa,
@@ -492,17 +495,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1097784583432455971, guid: fca093b7d71e6a744b858b6a61e6a758,
         type: 3}
-      propertyPath: _links.Array.data[0]
+      propertyPath: '_links.Array.data[0]'
       value: 
       objectReference: {fileID: 2068186483495266607}
     - target: {fileID: -1097784583432455971, guid: fca093b7d71e6a744b858b6a61e6a758,
         type: 3}
-      propertyPath: _links.Array.data[1]
+      propertyPath: '_links.Array.data[1]'
       value: 
       objectReference: {fileID: 1968408336310395696}
     - target: {fileID: -1097784583432455971, guid: fca093b7d71e6a744b858b6a61e6a758,
         type: 3}
-      propertyPath: _links.Array.data[2]
+      propertyPath: '_links.Array.data[2]'
       value: 
       objectReference: {fileID: 7969709596732887440}
     - target: {fileID: 1444047107208357972, guid: fca093b7d71e6a744b858b6a61e6a758,

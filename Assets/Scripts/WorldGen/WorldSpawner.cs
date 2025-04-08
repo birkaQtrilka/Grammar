@@ -3,6 +3,7 @@ using System.Collections;
 using System.Drawing;
 using UnityEngine;
 using UnityEngine.Events;
+using Color = UnityEngine.Color;
 
 public class WorldSpawner : MonoBehaviour
 {
@@ -15,18 +16,40 @@ public class WorldSpawner : MonoBehaviour
     public UnityEvent<Tile> TileCollapsed;
     public UnityEvent MapGenerated;
 
-    WaitForSeconds _clusterMergingTime = new(.2f);
+    readonly WaitForSeconds _clusterMergingTime = new(.2f);
+    float _cellWidth;
 
     [SerializeField] SimpleStock _housePrefab;
     [SerializeField] Transform _housesContainer;
-    float _cellWidth;
     [SerializeField] bool _generateHousesOnStart;
     [SerializeField] bool _spawnHousesOnStart;
+    [SerializeField] Transform _heightCenter;
+    [SerializeField] int _minBuildingHeight;
+    [SerializeField] int _maxBuildingHeight;
+    [SerializeField] AnimationCurve _minHeightCurve;
+    [SerializeField] AnimationCurve _heightIncreaseChanceCurve;
+    [SerializeField] float _heightChangeRange;
+    [SerializeField] Transform _cameraSpotTr;
+    [SerializeField] float _lodDistance;
+    public static Transform _cameraSpot { get;private set; }
+    static float _lodDist;
+    public static bool TooFar(Vector3 pos) => Vector3.Distance(pos, _cameraSpot.position) > _lodDist;
+    //public static GameObject GetPrefabByDistance(Vector3 pos) =
     void Start()
     {
+        _cameraSpot = _cameraSpotTr;
+        _lodDist = _lodDistance;
+
         if(_spawnOnStart)
             SpawnMap(false);
         StartCoroutine(AfterClusterFormation());
+    }
+
+    void OnDrawGizmos()
+    {
+        if (_heightCenter == null) return;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(_heightCenter.position, _heightChangeRange);
     }
 
     void SpawnMap(bool random)
@@ -79,9 +102,8 @@ public class WorldSpawner : MonoBehaviour
             {
                 var inst = Instantiate(_housePrefab, _housesContainer);
                 Rectangle housePos = house.Rect;
-                inst.Width = housePos.Width ;
+                inst.Width = housePos.Width;
                 inst.Depth = housePos.Height;
-                inst.Generate();
                 var randomScale = Random.Range(.4f, .9f);
                 inst.transform.localScale = new Vector3(.33333f, .33333f, .33333f)* randomScale;
 
@@ -93,7 +115,16 @@ public class WorldSpawner : MonoBehaviour
                 );
                 //magic number 3 is the  scale of the cells
                 corner_TL *= .33333f;
+                float dist = Vector3.Distance(corner_TL, _heightCenter.position);
+                float t = Mathf.Clamp01(dist / _heightChangeRange);
+                t = 1 - t;
+                float buildingHeight = _minHeightCurve.Evaluate(t) * (_maxBuildingHeight - _minBuildingHeight) + _minBuildingHeight;
+
+                inst.MinHeight = (int)buildingHeight;
+
                 inst.transform.position = corner_TL;
+                inst.Generate();
+
             }
         }
     }

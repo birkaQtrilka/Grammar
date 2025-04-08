@@ -66,6 +66,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e6c0d25a6469b48abc54675d7c99dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _links: []
+  _clusterID: 0
   _gameObject: {fileID: 907588489377400465, guid: 8caa758ccfacaad48be63657f85cfec4,
     type: 3}
   _update: 0
+  _showGizmos: 0
+  color: {r: 1, g: 0, b: 0, a: 1}

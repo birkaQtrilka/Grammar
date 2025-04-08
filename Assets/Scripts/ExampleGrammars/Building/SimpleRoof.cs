@@ -3,20 +3,20 @@
 namespace Demo {
 	public class SimpleRoof : Shape {
 		// grammar rule probabilities:
-		const float roofContinueChance = 0.5f;
+		//const float roofContinueChance = 0.5f;
 
 		// shape parameters:
 		int Width;
 		int Depth;
 
-		GameObject[] roofStyle;
-		GameObject[] wallStyle;
+		LodObject[] roofStyle;
+		LodObject[] wallStyle;
 
 		// (offset) values for the next layer:
 		int newWidth;
 		int newDepth;
 
-		public void Initialize(int Width, int Depth, GameObject[] roofStyle, GameObject[] wallStyle) {
+		public void Initialize(int Width, int Depth, LodObject[] roofStyle, LodObject[] wallStyle) {
 			this.Width=Width;
 			this.Depth=Depth;
 			this.roofStyle=roofStyle;
@@ -67,16 +67,16 @@ namespace Demo {
 			if (newWidth<=0 || newDepth<=0)
 				return;
 
-			float randomValue = RandomFloat();
-			if (randomValue<roofContinueChance) { // continue with the roof
+			//float randomValue = RandomFloat();
+			//if (randomValue<roofContinueChance) { // continue with the roof
 				SimpleRoof nextRoof = CreateSymbol<SimpleRoof>("roof");
 				nextRoof.Initialize(newWidth, newDepth, roofStyle, wallStyle);
 				nextRoof.Generate(buildDelay);
-			} else { // continue with a stock
-				SimpleStock nextStock = CreateSymbol<SimpleStock>("stock");
-				nextStock.Initialize(newWidth, newDepth, wallStyle, roofStyle);
-				nextStock.Generate(buildDelay);
-			}
+			//} else { // continue with a stock
+			//	SimpleStock nextStock = CreateSymbol<SimpleStock>("stock");
+			//	nextStock.Initialize(newWidth, newDepth, wallStyle, roofStyle);
+			//	nextStock.Generate(buildDelay);
+			//}
 		}
 	}
 }

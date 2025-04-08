@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 
 namespace Demo {
+	//this generates a floor
 	public class SimpleRow : Shape {
 		int Number;
-		GameObject[] prefabs=null;
+        LodObject[] prefabs=null;
 		Vector3 direction;
 
-		public void Initialize(int Number, GameObject[] prefabs, Vector3 dir=new Vector3()) {
+		public void Initialize(int Number, LodObject[] prefabs, Vector3 dir=new Vector3()) {
 			this.Number=Number;
 			this.prefabs=prefabs;
 			if (dir.magnitude!=0) {
@@ -19,10 +20,12 @@ namespace Demo {
 		protected override void Execute() {
 			if (Number<=0)
 				return;
+			bool tooFar = WorldSpawner.TooFar(transform.position);
+
 			for (int i=0;i<Number;i++) {	// spawn the prefabs, randomly chosen
 				int index = RandomInt(prefabs.Length); // choose a random prefab index
 				
-				SpawnPrefab(prefabs[index],
+				SpawnPrefab( tooFar ? prefabs[index].Low : prefabs[index].High,
 					direction * (i - (Number-1)/2f), // position offset from center
 					Quaternion.identity			// no rotation
 				);

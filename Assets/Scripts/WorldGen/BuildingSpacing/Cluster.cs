@@ -80,6 +80,7 @@ public class Cluster
         } while (_toDoHouses.Count != 0 && safety-- > 0);
 
     }
+
     House Iterate(Vector2Int startPos)
     {
         if (!IsAvailableCell(startPos)) return null;
