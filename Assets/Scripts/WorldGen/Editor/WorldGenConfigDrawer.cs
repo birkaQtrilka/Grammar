@@ -151,7 +151,8 @@ public class WorldGenConfigDrawer : Editor
 
                 if (IsMiddleClick())
                 {
-                    Debug.Log(SO.Grid[y, x]);
+                    GridCell result = SO.Grid[y, x];
+                    Debug.Log(result);
                     continue;
                 }
 
@@ -216,7 +217,9 @@ public class WorldGenConfigDrawer : Editor
         GridCell newCell = new() 
         {
             PopUpIndex = data.PopUpIndex, 
-            tile = data.PopUpIndex == 0 ? null : SO.AvailableTiles[data.PopUpIndex - 1].Clone() 
+            tile = data.PopUpIndex == 0 ? null : SO.AvailableTiles[data.PopUpIndex - 1].Clone(),
+            X = data.X,
+            Y = data.Y,
         };
         SO.Grid[data.Y,data.X] = newCell;
         SaveObject();
@@ -337,7 +340,7 @@ public class WorldGenConfigDrawer : Editor
         return text;
     }
 
-    readonly struct MenuData
+    class MenuData
     {
         //public readonly SerializedProperty GridCellProp;
         public readonly int X;

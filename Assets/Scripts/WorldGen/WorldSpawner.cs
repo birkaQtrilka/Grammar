@@ -43,13 +43,18 @@ public class WorldSpawner : MonoBehaviour
         foreach (GridCell cell in _config.Grid)
         {
             if (cell.tile.Prefab == null) continue;
-            var inst = Instantiate(cell.tile.Prefab,
-                transform.position + new Vector3(cell.X * _cellWidth + .5f * _cellWidth, 0, -cell.Y * _cellWidth - .5f * _cellWidth),
+            GameObject inst = Instantiate(cell.tile.Prefab,
+                transform.position + new Vector3(
+                    cell.X * _cellWidth + .5f * _cellWidth,
+                    0,
+                    -cell.Y * _cellWidth - .5f * _cellWidth
+                    ),
                 Quaternion.Euler(90, cell.tile.Rotation, 0), _tileHolder);
+
             SpriteRenderer renderer = inst.GetComponent<SpriteRenderer>();
             renderer.drawMode = SpriteDrawMode.Sliced;
             renderer.size = Vector2.one;
-            inst.transform.localScale = new Vector3(_cellWidth, _cellWidth);
+            inst.transform.localScale = new Vector3(_cellWidth, _cellWidth, 1);
         }
     }
 
