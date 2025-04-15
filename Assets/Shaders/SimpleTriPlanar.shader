@@ -1,70 +1,110 @@
-﻿Shader "Triplanar/Simple" {
-	Properties{
-		_MainTex("Albedo (RGB)", 2D) = "white" {}
+﻿Shader "URP/TriplanarSimple"
+{
+    Properties
+    {
+        _MainTex("Albedo (RGB)", 2D) = "white" {}
+        _Metallic("Metallic", Range(0,1)) = 0.0
+        _Smoothness("Smoothness", Range(0,1)) = 0.5
+        _TextureScale("Texture Scale", Range(0.1, 10)) = 1.0
+        _Sharpness("Sharpness", Range(1, 10)) = 2.0
+    }
 
-		_Glossiness("Smoothness", Range(0, 1)) = 0.5
-		_Metallic("Metallic", Range(0, 1)) = 0
-		_TextureScale("TextureScale", Range(0.1,10)) = 1.0
+    SubShader
+    {
+        Tags { "RenderType" = "Opaque" }
+        LOD 300
 
-		_Sharpness("Sharpness", Range(1,10)) = 1.0
-	}
-	SubShader{
-		Tags { "RenderType" = "Opaque" }
-		LOD 200
+        Pass
+        {
+            Name "ForwardLit"
+            Tags { "LightMode" = "UniversalForward" }
 
-		CGPROGRAM
-		// Physically based Standard lighting model, and enable shadows on all light types
-		#pragma surface surf Standard fullforwardshadows
+            HLSLPROGRAM
 
-		// Use shader model 3.0 target, to get nicer looking lighting
-		#pragma target 3.0
+            #pragma vertex vert
+            #pragma fragment frag
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
-		#include "UnityStandardUtils.cginc"
+            struct Attributes
+            {
+                float4 positionOS : POSITION;
+                float3 normalOS : NORMAL;
+            };
 
-		sampler2D _MainTex;
+            struct Varyings
+            {
+                float4 positionHCS : SV_POSITION;
+                float3 positionWS : TEXCOORD0;
+                float3 normalWS : TEXCOORD1;
+                float3 positionOS : TEXCOORD2;
+                float3 normalOS : TEXCOORD3;
+            };
 
-		half _Glossiness;
-		half _Metallic;
+            TEXTURE2D(_MainTex);
+            SAMPLER(sampler_MainTex);
 
-		half _TextureScale;
-		half _Sharpness;
+            CBUFFER_START(UnityPerMaterial)
+                float _TextureScale;
+                float _Sharpness;
+                float _Metallic;
+                float _Smoothness;
+            CBUFFER_END
 
-		struct Input {
-			float3 worldPos;
-			float3 worldNormal;	INTERNAL_DATA
-		};
+            Varyings vert(Attributes IN)
+            {
+                Varyings OUT;
+                OUT.positionHCS = TransformObjectToHClip(IN.positionOS.xyz);
+                OUT.positionWS = TransformObjectToWorld(IN.positionOS.xyz);
+                OUT.normalWS = TransformObjectToWorldNormal(IN.normalOS.xyz);
+                OUT.positionOS = IN.positionOS.xyz;
+                OUT.normalOS = IN.normalOS.xyz;
+                return OUT;
+            }
 
-		void surf(Input IN, inout SurfaceOutputStandard o) {
-			// Transform world position to object (local) space
-			float3 localPos = mul(unity_WorldToObject, float4(IN.worldPos, 1.0)).xyz;
+            float4 frag(Varyings IN) : SV_Target
+            {
+                float3 localPos = IN.positionOS;
+                float3 localNormal = normalize(IN.normalOS);
 
-			// Convert world normal to object (local) space
-			float3 localNormal = mul((float3x3)unity_WorldToObject, IN.worldNormal);
+                // Triplanar blend
+                float3 blend = abs(localNormal);
+                blend = pow(blend, _Sharpness);
+                blend /= (blend.x + blend.y + blend.z + 1e-5);
 
-			// Use absolute values of the local normal for blending
-			float3 blend = abs(localNormal);
-			blend = pow(blend, _Sharpness);
-			blend /= (blend.x + blend.y + blend.z + 1e-5); // small value to avoid div by zero
+                // Triplanar UVs
+                float2 uvX = localPos.zy / _TextureScale;
+                float2 uvY = localPos.xz / _TextureScale;
+                float2 uvZ = localPos.xy / _TextureScale;
 
-			// Compute triplanar UVs using localPos
-			float2 uvX = localPos.zy / _TextureScale;
-			float2 uvY = localPos.xz / _TextureScale;
-			float2 uvZ = localPos.xy / _TextureScale;
+                float4 colX = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uvX);
+                float4 colY = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uvY);
+                float4 colZ = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uvZ);
+                float4 albedo = colX * blend.x + colY * blend.y + colZ * blend.z;
 
-			// Sample texture
-			fixed4 colX = tex2D(_MainTex, uvX);
-			fixed4 colY = tex2D(_MainTex, uvY);
-			fixed4 colZ = tex2D(_MainTex, uvZ);
+                // Lighting
+                float3 viewDirWS = normalize(_WorldSpaceCameraPos - IN.positionWS);
+                InputData inputData = (InputData)0;
+                inputData.positionWS = IN.positionWS;
+                inputData.normalWS = normalize(IN.normalWS);
+                inputData.viewDirectionWS = viewDirWS;
+                inputData.shadowCoord = TransformWorldToShadowCoord(IN.positionWS);
 
-			// Blend based on normal direction
-			fixed4 col = colX * blend.x + colY * blend.y + colZ * blend.z;
+                SurfaceData surfaceData = (SurfaceData)0;
+                surfaceData.albedo = albedo.rgb;
+                surfaceData.metallic = _Metallic;
+                surfaceData.smoothness = _Smoothness;
+                surfaceData.normalTS = float3(0, 0, 1); // Flat normal for now
+                surfaceData.emission = float3(0, 0, 0);
+                surfaceData.occlusion = 1;
+                surfaceData.alpha = 1;
 
-			// Output surface properties
-			o.Albedo = col.rgb;
-			o.Metallic = _Metallic;
-			o.Smoothness = _Glossiness;
-		}
-		ENDCG
-	}
-	FallBack "Diffuse"
+                return UniversalFragmentPBR(inputData, surfaceData);
+            }
+
+            ENDHLSL
+        }
+    }
+
+    FallBack "Hidden/InternalErrorShader"
 }
