@@ -59,7 +59,7 @@ namespace Demo {
 		///  (By default, the parent is the game object of the current grammar symbol.)
 		/// Returns the new Symbol (a.k.a. Shape component).
 		/// </summary>
-		protected T CreateSymbol<T>(string name, Vector3 localPosition=new Vector3(), Quaternion localRotation=new Quaternion(), Transform parent=null) where T : Shape {
+		protected T CreateSymbol<T>(string name, Vector3 localPosition=new Vector3(), Quaternion localRotation=new Quaternion(), Transform parent=null, bool isStatic = true) where T : Shape {
 			if (parent==null) {
 				parent=transform; // default: add as child game object
 			}
@@ -68,6 +68,9 @@ namespace Demo {
 			newObj.transform.localPosition=localPosition;
 			newObj.transform.localRotation=localRotation;
 			newObj.transform.localScale = new Vector3(1, 1, 1);
+			newObj.isStatic = isStatic;
+			foreach (Transform item in newObj.transform)
+				item.gameObject.isStatic = isStatic;
 			AddGenerated(newObj);
 			T component = newObj.AddComponent<T>();
 			component.root = Root;
@@ -84,25 +87,30 @@ namespace Demo {
 		///  (By default, the parent is the game object of the current grammar symbol.)
 		/// Returns the generated game object.
 		/// </summary>
-		protected GameObject SpawnPrefab(GameObject prefab, Vector3 localPosition=new Vector3(), Quaternion localRotation=new Quaternion(), Transform parent=null) {
+		protected GameObject SpawnPrefab(GameObject prefab, Vector3 localPosition=new Vector3(), Quaternion localRotation=new Quaternion(), Transform parent=null, bool isStatic=true) {
 			if (parent==null) {
 				parent=transform; // default: add as child game object
 			}
 			GameObject copy = Instantiate(prefab, parent);
-			copy.transform.localPosition=localPosition;
-			copy.transform.localRotation=localRotation;
-			copy.transform.localScale = new Vector3(1, 1, 1);
-			AddGenerated(copy);
+			copy.transform.SetLocalPositionAndRotation(localPosition, localRotation);
+			copy.isStatic = isStatic;
+            foreach (Transform item in copy.transform)
+                item.gameObject.isStatic = isStatic;
+            //copy.transform.localScale = new Vector3(1, 1, 1);
+            AddGenerated(copy);
 			return copy;
 		}
 
-        protected T SpawnPrefab<T>(T prefab, Vector3 localPosition = new Vector3(), Quaternion localRotation = new Quaternion(), Transform parent = null) where T : MonoBehaviour
+        protected T SpawnPrefab<T>(T prefab, Vector3 localPosition = new Vector3(), Quaternion localRotation = new Quaternion(), Transform parent = null, bool isStatic = true) where T : MonoBehaviour
         {
             if (parent == null)
                 parent = transform; // default: add as child game object
             T copy = Instantiate(prefab, parent);
             copy.transform.SetLocalPositionAndRotation(localPosition, localRotation);
             copy.transform.localScale = new Vector3(1, 1, 1);
+			copy.gameObject.isStatic = isStatic;
+            foreach (Transform item in copy.transform)
+                item.gameObject.isStatic = isStatic;
             AddGenerated(copy.gameObject);
             return copy;
         }
@@ -161,9 +169,7 @@ namespace Demo {
 		///  call this method yourself.
 		/// </summary>
 		protected GameObject AddGenerated(GameObject newObject) {
-			if (generatedObjects==null) {
-				generatedObjects=new List<GameObject>();
-			}
+			generatedObjects??=new List<GameObject>();
 			generatedObjects.Add(newObject);
 			return newObject;
 		}

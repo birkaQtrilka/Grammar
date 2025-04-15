@@ -13,6 +13,7 @@ namespace Demo
         // grammar rule probabilities:
         public float stockContinueChance = 0.2f;
         public float billBoardSpawnChance = 0.0f;
+        public float IndentSpawnChance = .4f;
         public int billBoardMinHeight = 1;
         public int MinHeight = 3;
         //simple prevention of overlaping billboards
@@ -27,6 +28,7 @@ namespace Demo
         [SerializeField] LodObject[] groundStyle;
         [SerializeField] LodObject[] roofStyle;
         [SerializeField] LodObject _groundDoor;
+        [SerializeField] BlockRow _indent;
         [SerializeField] BillboardStock[] billboards;
 
         int _currentHeight;
@@ -41,28 +43,18 @@ namespace Demo
 
         protected override void Execute()
         {
-            // Create four walls:
-            int doorSideIndex = RandomInt(4);
-            for (int i = 0; i < 4; i++)
-            {
-                Vector3 localPosition = GetLocalPosition(i);
-                
-                if(_currentHeight == 0)
-                {
-                    LodObject door = doorSideIndex == i ? _groundDoor : null;
-                    GroundRow ground = CreateSymbol<GroundRow>("wall", localPosition, Quaternion.Euler(0, i * 90, 0));
-                    ground.Initialize(i % 2 == 1 ? Width : Depth, groundStyle, door);
-                    ground.Generate();
-                    continue;
-                }
-                SimpleRow newRow = CreateSymbol<SimpleRow>("wall", localPosition, Quaternion.Euler(0, i * 90, 0));
-                newRow.Initialize(i % 2 == 1 ? Width : Depth, wallStyle);
-                newRow.Generate();
-            }
+            float randomValue = RandomFloat();
+            bool willSpawnBody = _currentHeight < MinHeight || randomValue < stockContinueChance;
+            if (_currentHeight == 0)
+                SpawnGround();
+            else if (willSpawnBody && _currentHeight > 1 && RandomFloat() < IndentSpawnChance)
+                SpawnSegment();
+            else
+                SpawnBody();
+
             RandomBillboard();
 
-            float randomValue = RandomFloat();
-            if (_currentHeight < MinHeight || randomValue < stockContinueChance)
+            if (willSpawnBody)
             {
 
                 SimpleStock nextStock = CreateSymbol<SimpleStock>("stock", new Vector3(0, 1, 0));
@@ -73,6 +65,8 @@ namespace Demo
                 nextStock.billBoardMinHeight = billBoardMinHeight;
                 nextStock.billboards = billboards;
                 nextStock.billBoardSpawed = billBoardSpawed;
+                nextStock._indent = _indent;
+                nextStock.IndentSpawnChance = IndentSpawnChance;
 
                 nextStock.Initialize(Width, Depth, wallStyle, roofStyle);
                 nextStock.Generate(buildDelay);
@@ -83,6 +77,42 @@ namespace Demo
                 nextRoof.Initialize(Width, Depth, roofStyle, wallStyle);
                 nextRoof.Generate(buildDelay);
             }
+        }
+
+        void SpawnGround()
+        {
+            int doorSideIndex = RandomInt(4);
+            for (int i = 0; i < 4; i++)
+            {
+                Vector3 localPosition = GetLocalPosition(i);
+                LodObject door = doorSideIndex == i ? _groundDoor : null;
+                GroundRow ground = CreateSymbol<GroundRow>("wall", localPosition, Quaternion.Euler(0, i * 90, 0));
+                ground.Initialize(i % 2 == 1 ? Width : Depth, groundStyle, door);
+                ground.Generate();
+            }
+        }
+
+        void SpawnBody()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                Vector3 localPosition = GetLocalPosition(i);
+                SimpleRow newRow = CreateSymbol<SimpleRow>("wall", localPosition, Quaternion.Euler(0, i * 90, 0));
+                newRow.Initialize(i % 2 == 1 ? Width : Depth, wallStyle);
+                newRow.Generate();
+            }
+        }
+
+        void SpawnSegment()
+        {
+            _currentHeight--;
+
+            BlockRow newRow = SpawnPrefab(_indent);
+            newRow.Initialize(Width, Depth);
+            newRow.Generate();
+            newRow.transform.localPosition = Vector3.up * (1 - newRow.Height * .5f);
+            //move this instance down, since the indent is smaller than 1 unit
+            transform.localPosition =  Vector3.up * newRow.Height; 
         }
 
         void RandomBillboard()

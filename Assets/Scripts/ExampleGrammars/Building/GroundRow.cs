@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 namespace Demo
 {
+    //has the addtional rule of spawning a unique item once on that row
     public class GroundRow : Shape
     {
         int Number;
