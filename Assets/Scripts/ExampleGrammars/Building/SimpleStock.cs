@@ -17,7 +17,7 @@ namespace Demo
         public int billBoardMinHeight = 1;
         public int MinHeight = 3;
         //simple prevention of overlaping billboards
-        bool billBoardSpawed;
+        int _lastBillBoardSpawed = 0;
 
         // shape parameters:
         public int Width;
@@ -64,7 +64,7 @@ namespace Demo
                 nextStock.billBoardSpawnChance = billBoardSpawnChance;
                 nextStock.billBoardMinHeight = billBoardMinHeight;
                 nextStock.billboards = billboards;
-                nextStock.billBoardSpawed = billBoardSpawed;
+                nextStock._lastBillBoardSpawed = _lastBillBoardSpawed;
                 nextStock._indent = _indent;
                 nextStock.IndentSpawnChance = IndentSpawnChance;
 
@@ -117,14 +117,14 @@ namespace Demo
 
         void RandomBillboard()
         {
-            if (!billBoardSpawed && _currentHeight >= billBoardMinHeight && RandomFloat() < billBoardSpawnChance)
+            if (_currentHeight - _lastBillBoardSpawed >= billBoardMinHeight && RandomFloat() < billBoardSpawnChance)
             {
                 BillboardStock nextStock = SpawnPrefab(
                     SelectRandom(billboards));
                 int randomSide = RandomInt(4);
-                nextStock.Initialize(randomSide, Width, Depth, _currentHeight - 1);
+                nextStock.Initialize(randomSide, Width, Depth, _currentHeight - _lastBillBoardSpawed - 1);
                 nextStock.Generate();
-                billBoardSpawed = true;
+                _lastBillBoardSpawed = _currentHeight;
             }
         }
 

@@ -8,6 +8,9 @@ Shader "Unlit/VolumetricFog"
         _MaxDistance("Max distance", float) = 100
         _StepSize("StepSize", Range(0.1, 20)) = 100
         _DensityMultiplier("Density Multiplier", Range(0,10)) = 1
+        _InsideStrength("Inside Strength",float) = 1
+         _FogStart("Fog start", Vector) = (0,0,0,0)
+         _FogEnd("Fog end", Vector) = (1,1,1,1)
         //_NoiseOffset("Noise Offset", float) = 0
     }
     SubShader
@@ -27,9 +30,13 @@ Shader "Unlit/VolumetricFog"
             float _CutoffStart;
             float _CutoffEnd;
             float4 _Color;
+            float4 _FogStart;
+            float4 _FogEnd;
             float _MaxDistance;
             float _StepSize;
             float _DensityMultiplier;
+            float _InsideStrength;
+            
             //float _NoiseOffset;
 
             float get_density()
@@ -72,9 +79,12 @@ Shader "Unlit/VolumetricFog"
                     }
                     distTraveled += _StepSize;
                 }
+                bool end = worldPos.x < _FogStart.x || worldPos.x > _FogEnd.x ||
+                worldPos.z < _FogStart.z || worldPos.z > _FogEnd.z;
 
                 //space effect
                 float cutoff_tb = 1- clamp(InverseLerp(_CutoffStart, _CutoffEnd, worldPos.y),0,1);
+                cutoff_tb *= (end ? 0 : 1);
                 //screenEffect
                 float cutoff_t = 1- clamp(InverseLerp(_CutoffStart, _CutoffEnd, entryPoint.y),0,1);
                 //float cutoff_t = 1 - clamp(entryPoint.y ,_CutoffStart,_CutoffEnd) / _CutoffEnd;    
@@ -82,7 +92,7 @@ Shader "Unlit/VolumetricFog"
                 //cutoff_t *=  cutoff_tb;
                 //return col * cutoff_tb;
                 //return lerp(col, _Color, (1- saturate(transmittance)) * (cutoff_t + cutoff_tb) * 0.5f);
-                return lerp(col, _Color, (1- saturate(transmittance)) * (cutoff_tb + cutoff_t)*.5f * _Color.w);
+                return lerp(col, _Color, (1- saturate(transmittance)) * (cutoff_tb  + cutoff_t *_InsideStrength)*.5f * _Color.w);
                 //return lerp(col, _Color, (1- saturate(transmittance)) );
                 //float4 endCol = _Color * (cutoff_t + cutoff_tb) * 0.5f;
                 //endCol.w = 1;
