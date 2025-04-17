@@ -97,7 +97,7 @@ public class WorldSpawner : MonoBehaviour
     [ContextMenu("SpawnHouses")]
     void SpawnHouses()
     {
-        foreach (Cluster cluster in BuildSpace._merger.Values)
+        foreach (Cluster cluster in BuildSpace.Clusters)
         {
             foreach (House house in cluster.Houses)
             {
@@ -134,7 +134,7 @@ public class WorldSpawner : MonoBehaviour
     [ContextMenu("GenerateHouses")]
     public void GenerateHouses()
     {
-        foreach (Cluster cluster in BuildSpace._merger.Values)
+        foreach (Cluster cluster in BuildSpace.Clusters)
         {
             cluster.GenerateHouses();
 
@@ -145,7 +145,7 @@ public class WorldSpawner : MonoBehaviour
     public void SpawnConfigMap()
     {
         BuildSpace.ClearClusters();
-        GameObject obj = new GameObject(_tileHolder.name);
+        GameObject obj = new(_tileHolder.name);
         DestroyImmediate(_tileHolder.gameObject);
         _tileHolder = obj.transform;
         SpawnMap(false);
@@ -155,7 +155,7 @@ public class WorldSpawner : MonoBehaviour
     public void SpawnNewMap()
     {
         BuildSpace.ClearClusters();
-        GameObject obj = new GameObject(_tileHolder.name);
+        GameObject obj = new(_tileHolder.name);
         DestroyImmediate(_tileHolder.gameObject);
         _tileHolder = obj.transform;
         SpawnMap(true);

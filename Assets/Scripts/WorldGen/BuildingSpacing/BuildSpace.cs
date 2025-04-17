@@ -1,32 +1,33 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 [SelectionBase]
 public class BuildSpace : MonoBehaviour
 {
-
-    public readonly static Dictionary<int, Cluster> _merger = new();
-    static event Action<int, int> Merged;
+    readonly static Dictionary<int, Cluster> _merger = new();
+    public static IEnumerable<Cluster> Clusters { get; private set; }
     public static void ClearClusters() { _merger.Clear(); }
+    public static int ClusterCount() => _merger.Count;
+
+    static event Action<int, int> Merged;
+    readonly static System.Random Random = new(1);
+
 
     [SerializeField] List<BuildSpace> _links;
-
     [SerializeField] int _clusterID;
 
-    readonly static System.Random Random = new System.Random(1);
 
-    [SerializeField] GameObject _gameObject;
-    [SerializeField] bool _update;
     [SerializeField] bool _showGizmos;
-    [SerializeField] UnityEngine.Color color = UnityEngine.Color.red;
+    [SerializeField] Color color = Color.red;
 
     bool _isFirst = true;
 
     void Awake()//ADD CELLS FROM LINKS
     {
+        Clusters ??= _merger.Values;
+        
         if (!_isFirst) return;
 
         _clusterID = gameObject.GetInstanceID();
@@ -65,7 +66,6 @@ public class BuildSpace : MonoBehaviour
     void OnDisable()
     {
         Merged -= OnMerge;
-
     }
 
     [ContextMenu("DebugGridPos")]
@@ -132,14 +132,10 @@ public class BuildSpace : MonoBehaviour
 
         _merger.Remove(b._clusterID);
         Merged?.Invoke(b._clusterID, a._clusterID);
-        //point to an array and change the array 
     }
 
     void OnMerge(int oldClusterID, int newClusterID)
     {
-        if(_clusterID != oldClusterID) return;
-
         _clusterID = newClusterID;
     }
-    //add callback so every object that has the removed clusterID changes it to the persistent clusterID
 }

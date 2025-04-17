@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
@@ -11,11 +10,9 @@ public class Cluster
 
     public Dictionary<Vector2Int, BuildCell> Cells = new();
     public ReadOnlyCollection<House> Houses { get; private set; }
-    public int MinimumHousePerimeter { get; set; }
 
     readonly Queue<Vector2Int> _toDoHouses = new();
     readonly List<House> _houses = new();
-
 
     readonly System.Random _random;
     readonly int _maxSideDifference;
@@ -27,9 +24,8 @@ public class Cluster
     //the functions that enqueue a direction of propagation of a house
     readonly TryGet[] tryGets;
 
-    public Cluster(int minimumHousePerimeter, System.Random random, int id, int maxSideDifference = 1, int splitChance = 70)
+    public Cluster(System.Random random, int id, int maxSideDifference = 1, int splitChance = 70)
     {
-        MinimumHousePerimeter = minimumHousePerimeter;
         _random = random;
         _maxSideDifference = maxSideDifference;
         _splitChance = splitChance;

@@ -26,7 +26,7 @@ public class ClusterDivisionTest : MonoBehaviour
     [ContextMenu("CleanupLonelyClusters")]
     public void CleanupLonelyClusters()
     {
-        foreach (Cluster cluster in BuildSpace._merger.Values)
+        foreach (Cluster cluster in BuildSpace.Clusters)
         {
             cluster.GenerateHouses();
             cluster.Draw(_housePrefab.transform, _clusterContainer, _housesContainer);
@@ -36,7 +36,7 @@ public class ClusterDivisionTest : MonoBehaviour
     [ContextMenu("GenerateHouses")]
     public void GenerateHouses()
     {
-        foreach (Cluster cluster in BuildSpace._merger.Values)
+        foreach (Cluster cluster in BuildSpace.Clusters)
         {
             cluster.GenerateHouses();
         }
@@ -44,8 +44,8 @@ public class ClusterDivisionTest : MonoBehaviour
     
     [ContextMenu("DrawHouses")]
     public void DrawHouses()
-    {
-        foreach (Cluster cluster in BuildSpace._merger.Values)
+    {   
+        foreach (Cluster cluster in BuildSpace.Clusters)
         {
             cluster.Draw(_housePrefab.transform, _clusterContainer, _housesContainer);
         }
@@ -56,8 +56,8 @@ public class ClusterDivisionTest : MonoBehaviour
     [ContextMenu("ClusterData")]
     public void ShowClusterData()
     {
-        Debug.Log("Clusters Count: " + BuildSpace._merger.Count);
-        foreach (Cluster cluster in BuildSpace._merger.Values)
+        Debug.Log("Clusters Count: " + BuildSpace.ClusterCount());
+        foreach (Cluster cluster in BuildSpace.Clusters)
         {
             Debug.Log("Cluster id: " + cluster.ID);
         }
@@ -66,7 +66,7 @@ public class ClusterDivisionTest : MonoBehaviour
     [ContextMenu("Random Cluster")]
     public void ShowRandomCluster()
     {
-        var cluster = BuildSpace._merger.Values.ToList().GetRandomItem();
+        var cluster = BuildSpace.Clusters.ToList().GetRandomItem();
         Debug.Log("Spawning Cluster with id: " + cluster.ID);
         cluster.GenerateHouses();
         cluster.Draw(_housePrefab.transform, _clusterContainer, _housesContainer);
@@ -74,7 +74,7 @@ public class ClusterDivisionTest : MonoBehaviour
     
     void OnDrawGizmos()
     {
-        var clusters = BuildSpace._merger.Values;
+        var clusters = BuildSpace.Clusters;
         
         int i = 0;
         Gizmos.color = _minMaxClr;
@@ -92,10 +92,9 @@ public class ClusterDivisionTest : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            var clusters = BuildSpace._merger.Values;
 
             _currentDebuggedCluster++;
-            if (_currentDebuggedCluster >= clusters.Count) _currentDebuggedCluster = 0;
+            if (_currentDebuggedCluster >= BuildSpace.ClusterCount()) _currentDebuggedCluster = 0;
         }
     }
 }
