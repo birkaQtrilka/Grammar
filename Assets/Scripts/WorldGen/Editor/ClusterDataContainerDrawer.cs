@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
+using Unity.Plastic.Newtonsoft.Json.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,28 +11,88 @@ using UnityEngine;
 public class ClusterDataContainerDrawer : PropertyDrawer
 {
     private static Dictionary<int, bool> foldouts = new ();
-
+    string searchInput;
+    
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        ClusterDataContainer target = GetInstance<ClusterDataContainer>(fieldInfo, property);
+        //ClusterDataContainer target = GetInstance<ClusterDataContainer>(fieldInfo, property);
 
         SerializedProperty array = property.FindPropertyRelative("_clusters");
-        if (array == null)
+        if (array == null || array.arraySize == 0)
         {
             EditorGUILayout.LabelField("No cluster formed yet");
             return;
         }
-
-        if (GUILayout.Button("Deselect"))
+        GUILayout.BeginHorizontal();
+        if(GUILayout.Button("DeleteSearch"))
         {
-            GizmosDrawer.Instance.PersistentCall = null;
-
+            searchInput = string.Empty;
         }
+        searchInput = GUILayout.TextField(searchInput);
+        GUILayout.EndHorizontal();
+        if (searchInput == string.Empty)
+            ShowFullList(array);
+        else
+            FindCluster(array);
+    }
+
+    void FindCluster(SerializedProperty array)
+    {
+        if (!(int.TryParse(searchInput, out int result) && BuildSpace.TryGetCluster(result, out Cluster cluster))) return;
+
+        if (GUILayout.Button("Select"))
+        {
+            GizmosDrawer.Instance.PersistentCall = () => cluster.DrawCells(0);
+            SceneView.lastActiveSceneView.LookAt(cluster.GetDrawnCenter() + Vector3.up * 5);
+        }
+        SerializedProperty data = null;
+        int i = 0;
+        for (; i < array.arraySize; i++)
+        {
+            SerializedProperty arrayElement = array.GetArrayElementAtIndex(i);
+            if(arrayElement.FindPropertyRelative("id").intValue == result)
+                data = arrayElement.FindPropertyRelative("Data");
+        }
+        if (data == null) return;
+
+        EditorGUILayout.PropertyField(data);
+
+        var obj = data.objectReferenceValue;
+        if (obj == null) return;
+        int foldoutKey = i;
+
+        if (!foldouts.ContainsKey(foldoutKey))
+            foldouts.Add(foldoutKey, false);
+
+        bool foldout = EditorGUILayout.Foldout(foldouts[foldoutKey], "Show Data Contents", true);
+        foldouts[foldoutKey] = foldout;
+        if (!foldout) return;
+        EditorGUI.indentLevel++;
+
+        // Create a serialized object from the ScriptableObject
+        SerializedObject dataSO = new(data.objectReferenceValue);
+        SerializedProperty prop = dataSO.GetIterator();
+
+        // Needed to start iterating
+        prop.NextVisible(true);
+
+        while (prop.NextVisible(false))
+        {
+            EditorGUILayout.PropertyField(prop, true);
+        }
+
+        dataSO.ApplyModifiedProperties();
+
+        EditorGUI.indentLevel--;
+    }
+
+    void ShowFullList(SerializedProperty array)
+    {
         int testCount = Mathf.Min(5, array.arraySize);
         for (int i = 0; i < testCount; ++i)
         {
             SerializedProperty arrayElement = array.GetArrayElementAtIndex(i);
-            if(GUILayout.Button("Select"))
+            if (GUILayout.Button("Select"))
             {
                 Cluster cluster = BuildSpace.GetCluster(arrayElement.FindPropertyRelative("id").intValue);
                 GizmosDrawer.Instance.PersistentCall = () => cluster.DrawCells(0);
@@ -40,7 +101,7 @@ public class ClusterDataContainerDrawer : PropertyDrawer
             var data = arrayElement.FindPropertyRelative("Data");
             EditorGUILayout.PropertyField(data);
             // Store foldout state per-object
-            
+
             var obj = data.objectReferenceValue;
             if (obj == null) continue;
             int foldoutKey = i;
@@ -48,13 +109,13 @@ public class ClusterDataContainerDrawer : PropertyDrawer
             if (!foldouts.ContainsKey(foldoutKey))
                 foldouts.Add(foldoutKey, false);
 
-            bool foldout =  EditorGUILayout.Foldout(foldouts[foldoutKey], "Show Data Contents", true);
-            foldouts[foldoutKey] =foldout;
+            bool foldout = EditorGUILayout.Foldout(foldouts[foldoutKey], "Show Data Contents", true);
+            foldouts[foldoutKey] = foldout;
             if (!foldout) continue;
             EditorGUI.indentLevel++;
 
             // Create a serialized object from the ScriptableObject
-            SerializedObject dataSO = new (data.objectReferenceValue);
+            SerializedObject dataSO = new(data.objectReferenceValue);
             SerializedProperty prop = dataSO.GetIterator();
 
             // Needed to start iterating
@@ -68,7 +129,7 @@ public class ClusterDataContainerDrawer : PropertyDrawer
             dataSO.ApplyModifiedProperties();
 
             EditorGUI.indentLevel--;
-            
+
         }
     }
 

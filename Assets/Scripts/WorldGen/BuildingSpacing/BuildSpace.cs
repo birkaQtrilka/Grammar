@@ -11,6 +11,7 @@ public class BuildSpace : MonoBehaviour
     public static IEnumerable<int> ClusterIDs { get; private set; }
     public static void ClearClusters() { _merger.Clear(); }
     public static Cluster GetCluster(int id) => _merger[id];
+    public static bool TryGetCluster(int id, out Cluster cluster) => _merger.TryGetValue(id, out cluster);
     public static int ClusterCount() => _merger.Count;
 
     static event Action<int, int> Merged;
@@ -18,8 +19,8 @@ public class BuildSpace : MonoBehaviour
 
 
     [SerializeField] List<BuildSpace> _links;
-    [SerializeField] int _clusterID;
-
+    int _clusterID = int.MinValue;
+    public int ClusterID => _clusterID;
 
     [SerializeField] bool _showGizmos;
     [SerializeField] Color color = Color.red;
@@ -118,7 +119,8 @@ public class BuildSpace : MonoBehaviour
     IEnumerator DestroySelf()
     {
         yield return null;
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+        //Destroy(gameObject);
     }
 
     void Merge(BuildSpace a, BuildSpace b)

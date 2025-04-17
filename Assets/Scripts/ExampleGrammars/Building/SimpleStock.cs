@@ -7,6 +7,8 @@ namespace Demo
     {
         public GameObject High;
         public GameObject Low;
+        public Material HighMat;
+        public Material LowMat;
     }
     public class SimpleStock : Shape
     {

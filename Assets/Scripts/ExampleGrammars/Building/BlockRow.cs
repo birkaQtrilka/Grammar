@@ -20,7 +20,8 @@
         {
             bool tooFar = WorldSpawner.LOD_Enabled && WorldSpawner.TooFar(transform.position);
             LodObject block = prefabs[RandomInt(prefabs.Length)];
-            var inst = SpawnPrefab(tooFar ? block.Low : block.High);
+            var inst = SpawnLOD(block, tooFar);
+
             Height = inst.transform.localScale.y;
             inst.transform.localScale = new Vector3(_width - _indentDepth, Height, _depth - _indentDepth);
         }

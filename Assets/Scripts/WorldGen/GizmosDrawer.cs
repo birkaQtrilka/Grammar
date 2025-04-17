@@ -39,6 +39,11 @@ public class GizmosDrawer : MonoBehaviour
             call();
         }
         PersistentCall?.Invoke();
+        Event e = Event.current;
+        if (e.type == EventType.KeyDown && e.keyCode == KeyCode.Escape)
+        {
+            Instance.PersistentCall = null;
+        }
     }
 
     public void PushDrawCall(Action action) => _drawCall.Push(action);

@@ -5,6 +5,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UIElements;
 using UnityEngine;
 
 
@@ -100,6 +101,15 @@ namespace Demo {
             AddGenerated(copy);
 			return copy;
 		}
+
+		protected GameObject SpawnLOD(LodObject prefab, bool isLow, Vector3 localPosition = new Vector3(), Quaternion localRotation = new Quaternion(), Transform parent = null, bool isStatic = true)
+        {
+			var inst = SpawnPrefab(isLow ? prefab.Low : prefab.High, localPosition, localRotation, parent, isStatic);
+			Material mat = isLow ? prefab.LowMat : prefab.HighMat;
+            if (mat != null)
+                inst.GetComponentInChildren<Renderer>().material = mat;
+			return inst;
+        }
 
         protected T SpawnPrefab<T>(T prefab, Vector3 localPosition = new Vector3(), Quaternion localRotation = new Quaternion(), Transform parent = null, bool isStatic = true) where T : MonoBehaviour
         {

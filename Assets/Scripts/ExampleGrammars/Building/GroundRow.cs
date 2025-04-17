@@ -34,7 +34,7 @@ namespace Demo
             for (int i = 0; i < Number; i++)
             {   // spawn the prefabs, randomly chosen
                 LodObject tile = _doorPrefab != null && i == doorIndex ? _doorPrefab : prefabs[RandomInt(prefabs.Length)];
-                SpawnPrefab(tooFar ? tile.Low : tile.High,
+                SpawnLOD(tile, tooFar,
                     direction * (i - (Number - 1) / 2f), // position offset from center
                     Quaternion.identity         // no rotation
                 );

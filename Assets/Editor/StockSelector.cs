@@ -3,13 +3,14 @@ using UnityEditor;
 using UnityEngine;
 
 [InitializeOnLoad]
-public static class SimpleStockSelectorTool
+public static class StockSelector
 {
-    static SimpleStockSelectorTool()
+
+    static StockSelector()
     {
         SceneView.duringSceneGui += OnSceneGUI;
     }
-
+    
     static void OnSceneGUI(SceneView sceneView)
     {
         Event e = Event.current;
@@ -17,9 +18,18 @@ public static class SimpleStockSelectorTool
         if (!(e.type == EventType.MouseDown && e.button == 0 && !e.alt)) return;
 
         GameObject picked = HandleUtility.PickGameObject(e.mousePosition, false);
-
         if (picked == null) return;
-        
+        //selecting tile
+        if (picked.layer == LayerMask.NameToLayer("Tile"))
+        {
+            BuildSpace clusterPiece = picked.GetComponentInChildren<BuildSpace>(true);
+            if (!BuildSpace.TryGetCluster(clusterPiece.ClusterID, out Cluster cluster)) return;
+            GizmosDrawer.Instance.PersistentCall = () => cluster.DrawCells(0);
+            SceneView.lastActiveSceneView.LookAt(cluster.GetDrawnCenter() + Vector3.up * 5);
+            Debug.Log("clusterID " + clusterPiece.ClusterID);
+            return;
+        }
+
         GameObject topMost = FindTopmostSimpleStock(picked);
 
         if (topMost != null)
@@ -35,7 +45,7 @@ public static class SimpleStockSelectorTool
     {
         Transform current = start.transform;
         GameObject topMostWithStock = null;
-
+        
         while (current != null)
         {
             if (current.TryGetComponent<SimpleStock>(out _))

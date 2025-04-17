@@ -7,8 +7,6 @@ public static class Utils
 {
     readonly static System.Random rng = new();
 
-    
-
     public static void Shuffle<T>(this IList<T> list)
     {
         int n = list.Count;
@@ -25,7 +23,11 @@ public static class Utils
         generator ??= rng;
         return list[generator.Next(0, list.Count)];
     }
-
+    public static T GetRandomItem<T>(this T[] arr, System.Random generator = null)
+    {
+        generator ??= rng;
+        return arr[generator.Next(0, arr.Length)];
+    }
     public static List<GameObject> FindGameObjectInChildWithTag(this GameObject parent, string tag)
     {
         Transform t = parent.transform;

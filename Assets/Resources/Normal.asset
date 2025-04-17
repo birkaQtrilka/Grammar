@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 490091a6a1c701b4cae42d704a7b0ddd, type: 3}
-  m_Name: Rich
+  m_Name: Normal
   m_EditorClassIdentifier: 
   <BuildingPrefabs>k__BackingField:
   - {fileID: 8345122083041106081, guid: c5c6fd1f5de03204587c4f6b00db7e62, type: 3}

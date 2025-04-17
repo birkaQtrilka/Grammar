@@ -24,12 +24,14 @@ namespace Demo {
 
             for (int i=0;i<Number;i++) {	// spawn the prefabs, randomly chosen
 				int index = RandomInt(prefabs.Length); // choose a random prefab index
-				
-				SpawnPrefab( tooFar ? prefabs[index].Low : prefabs[index].High,
+				LodObject obj = prefabs[index];
+				SpawnLOD( obj, tooFar,
 					direction * (i - (Number-1)/2f), // position offset from center
 					Quaternion.identity			// no rotation
 				);
-			}
+				
+
+            }
 		}
 	}
 }

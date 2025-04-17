@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1267454596572838935}
   - component: {fileID: 2458497736491260231}
   m_Layer: 0
-  m_Name: BillBoard
+  m_Name: BillBoardRed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53,10 +53,10 @@ MonoBehaviour:
   edgeStyle:
   - High: {fileID: 3389769321135412885, guid: 3cc6a33aa7a00a24aaef02cbc01f02d6, type: 3}
     Low: {fileID: 3389769321135412885, guid: 3cc6a33aa7a00a24aaef02cbc01f02d6, type: 3}
-    HighMat: {fileID: 2100000, guid: 469e677481f9faf4898ff367f9a7df66, type: 2}
-    LowMat: {fileID: 2100000, guid: 469e677481f9faf4898ff367f9a7df66, type: 2}
+    HighMat: {fileID: 2100000, guid: ecc70cdac2d395d4ab7bcdbd28e3cd47, type: 2}
+    LowMat: {fileID: 2100000, guid: ecc70cdac2d395d4ab7bcdbd28e3cd47, type: 2}
   bodyStyle:
   - High: {fileID: 3389769321135412885, guid: 3cc6a33aa7a00a24aaef02cbc01f02d6, type: 3}
     Low: {fileID: 3389769321135412885, guid: 3cc6a33aa7a00a24aaef02cbc01f02d6, type: 3}
-    HighMat: {fileID: 2100000, guid: 469e677481f9faf4898ff367f9a7df66, type: 2}
-    LowMat: {fileID: 2100000, guid: 469e677481f9faf4898ff367f9a7df66, type: 2}
+    HighMat: {fileID: 2100000, guid: ecc70cdac2d395d4ab7bcdbd28e3cd47, type: 2}
+    LowMat: {fileID: 2100000, guid: ecc70cdac2d395d4ab7bcdbd28e3cd47, type: 2}

@@ -21,7 +21,7 @@ public class WorldSpawner : MonoBehaviour
     readonly WaitForSeconds _clusterMergingTime = new(.2f);
     float _cellWidth;
 
-    [SerializeField] SimpleStock _housePrefab;
+    //[SerializeField] SimpleStock _housePrefab;
     [SerializeField] Transform _housesContainer;
     [SerializeField] bool _generateHousesOnStart;
     [SerializeField] bool _spawnHousesOnStart;
@@ -100,11 +100,18 @@ public class WorldSpawner : MonoBehaviour
     [ContextMenu("SpawnHouses")]
     void SpawnHouses()
     {
-        foreach (Cluster cluster in BuildSpace.Clusters)
+        foreach (KV keyVal in clusterDataContainer.Clusters)
         {
+            Cluster cluster = BuildSpace.GetCluster(keyVal.id);
+            HouseClusterData data = keyVal.Data as HouseClusterData; 
+            if(data.BuildingPrefabs == null || data.BuildingPrefabs.Length == 0)
+            {
+                Debug.LogWarning("Data is empty");
+                continue;
+            }
             foreach (House house in cluster.Houses)
             {
-                var inst = Instantiate(_housePrefab, _housesContainer);
+                var inst = Instantiate(data.BuildingPrefabs.GetRandomItem(), _housesContainer);
                 Rectangle housePos = house.Rect;
                 inst.Width = housePos.Width;
                 inst.Depth = housePos.Height;
