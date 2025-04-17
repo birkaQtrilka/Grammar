@@ -14,7 +14,12 @@ public static class StockSelector
     static void OnSceneGUI(SceneView sceneView)
     {
         Event e = Event.current;
-
+        if (e.type == EventType.KeyDown && e.keyCode == KeyCode.P)
+        {
+            Debug.Log("esc");
+            GizmosDrawer.Instance.PersistentCall = null;
+            return;
+        }
         if (!(e.type == EventType.MouseDown && e.button == 0 && !e.alt)) return;
 
         GameObject picked = HandleUtility.PickGameObject(e.mousePosition, false);
@@ -23,7 +28,7 @@ public static class StockSelector
         if (picked.layer == LayerMask.NameToLayer("Tile"))
         {
             BuildSpace clusterPiece = picked.GetComponentInChildren<BuildSpace>(true);
-            if (!BuildSpace.TryGetCluster(clusterPiece.ClusterID, out Cluster cluster)) return;
+            if (clusterPiece == null || !BuildSpace.TryGetCluster(clusterPiece.ClusterID, out Cluster cluster)) return;
             GizmosDrawer.Instance.PersistentCall = () => cluster.DrawCells(0);
             SceneView.lastActiveSceneView.LookAt(cluster.GetDrawnCenter() + Vector3.up * 5);
             Debug.Log("clusterID " + clusterPiece.ClusterID);
