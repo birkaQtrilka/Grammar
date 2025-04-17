@@ -7,6 +7,8 @@ using Color = UnityEngine.Color;
 
 public class WorldSpawner : MonoBehaviour
 {
+    [SerializeField] ClusterDataContainer clusterDataContainer;
+
     [SerializeField] float _size = 100f;
     [SerializeField] WorldGenConfig _config;
     [SerializeField] Transform _tileHolder;
@@ -85,6 +87,7 @@ public class WorldSpawner : MonoBehaviour
     IEnumerator AfterClusterFormation()
     {
         yield return _clusterMergingTime;
+        clusterDataContainer.Init();
         if(_generateHousesOnStart)
         {
             GenerateHouses();

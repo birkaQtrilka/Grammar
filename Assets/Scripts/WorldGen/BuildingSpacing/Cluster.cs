@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 using UnityEngine;
-
+[Serializable]
 public class Cluster
 {
     delegate bool TryGet(House h, out Vector2Int pos);
@@ -290,11 +291,6 @@ public class Cluster
         i = 0;
         foreach (House house in _houses)
         {
-            //float x = house.MinMax.MinX;
-            //float y = house.MinMax.MinY;
-            //float x1 = (house.MinMax.MaxX + 1);
-            //float y1 = (house.MinMax.MaxY + 1);
-
             float x = house.Rect.X;
             float y = house.Rect.Y;
             float x1 = (house.Rect.X + house.Rect.Width);
@@ -322,4 +318,24 @@ public class Cluster
         }
     }
 
+    public Vector3 GetDrawnCenter()
+    {
+        Vector3 min = new Vector3(float.MaxValue, 0, float.MaxValue);
+        Vector3 max = new Vector3(float.MinValue, 0, float.MinValue);
+
+        foreach (var house in _houses)
+        {
+            float x = house.Rect.X;
+            float y = house.Rect.Y;
+            var corner_TL = new Vector3(x, .1f, y) * .3333f;
+            x = corner_TL.x;
+            y = corner_TL.z;
+            if(x < min.x) min.x = x;
+            else if(x > max.x) max.x = x;
+
+            if (y < min.z) min.z = y;
+            else if (y > max.z) max.z = y;
+        }
+        return Vector3.Lerp(min, max, .5f);
+    }
 }

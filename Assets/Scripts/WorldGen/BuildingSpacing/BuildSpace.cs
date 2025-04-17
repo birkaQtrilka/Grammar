@@ -8,7 +8,9 @@ public class BuildSpace : MonoBehaviour
 {
     readonly static Dictionary<int, Cluster> _merger = new();
     public static IEnumerable<Cluster> Clusters { get; private set; }
+    public static IEnumerable<int> ClusterIDs { get; private set; }
     public static void ClearClusters() { _merger.Clear(); }
+    public static Cluster GetCluster(int id) => _merger[id];
     public static int ClusterCount() => _merger.Count;
 
     static event Action<int, int> Merged;
@@ -27,6 +29,7 @@ public class BuildSpace : MonoBehaviour
     void Awake()//ADD CELLS FROM LINKS
     {
         Clusters ??= _merger.Values;
+        ClusterIDs ??= _merger.Keys;
         
         if (!_isFirst) return;
 
