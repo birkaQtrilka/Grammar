@@ -136,6 +136,7 @@ public class BuildSpace : MonoBehaviour
 
     void OnMerge(int oldClusterID, int newClusterID)
     {
+        if (_clusterID != oldClusterID) return;
         _clusterID = newClusterID;
     }
 }
