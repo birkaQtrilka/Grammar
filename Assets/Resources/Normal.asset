@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Normal
   m_EditorClassIdentifier: 
   <BuildingPrefabs>k__BackingField:
-  - {fileID: 8345122083041106081, guid: c5c6fd1f5de03204587c4f6b00db7e62, type: 3}
+  - {fileID: 8345122083041106081, guid: fd916cd3aaf80ac4db38da93574822e1, type: 3}

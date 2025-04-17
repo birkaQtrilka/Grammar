@@ -17,8 +17,6 @@ public class WarpMeshAlongSpline : MeshCreator
 			return;
 		List<Vector3> points = curve.points;
 
-		Debug.Log("Recalculating spline mesh");
-
 		MeshBuilder builder = new MeshBuilder();
 		if (points.Count<2) {
 			GetComponent<MeshFilter>().mesh = builder.CreateMesh(true);
@@ -33,8 +31,6 @@ public class WarpMeshAlongSpline : MeshCreator
 
 
         // First, compute directions & orientations for each line segment of the curve:
-        // TODO: for a better looking curve: for each curve point, first compute the *average direction* (normalized) of *both* incident line segments,
-        //   and then use that direction to compute the orientation of the point:
         var localOrientation = new List<Quaternion>();
 		for (int i = 0; i < points.Count-1; i++) {
 			// Compute a unit length vector from the current point to the next:
@@ -67,7 +63,6 @@ public class WarpMeshAlongSpline : MeshCreator
 				Quaternion interpolatedOrientation = i+1== localOrientation.Count ? 
 					localOrientation[i] :
 					Quaternion.Lerp(localOrientation[i], localOrientation[i + 1], t);
-				// TODO: interpolate the orientations as well, not just the points!
 				Vector3 rotatedXYModelCoordinate = interpolatedOrientation * inputV;
 				
 				builder.AddVertex(

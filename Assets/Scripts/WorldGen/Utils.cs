@@ -7,6 +7,25 @@ public static class Utils
 {
     readonly static System.Random rng = new();
 
+    public static void DestroyAllChildren(this GameObject obj)
+    {
+        DestroyAllChildren(obj.transform);
+    }
+
+    public static void DestroyAllChildren(this Transform transform, bool immediate = false)
+    {
+        if(immediate)
+        {
+            for (int i = transform.childCount - 1; i >= 0; --i)
+                GameObject.DestroyImmediate(transform.GetChild(i).gameObject);
+        }
+        else
+        {
+            for (int i = transform.childCount - 1; i >= 0; --i)
+                GameObject.Destroy(transform.GetChild(i).gameObject);
+        }
+    }
+
     public static void Shuffle<T>(this IList<T> list)
     {
         int n = list.Count;

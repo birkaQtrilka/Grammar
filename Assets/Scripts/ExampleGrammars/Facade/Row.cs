@@ -20,24 +20,13 @@ namespace Demo {
 			}
 		}
 
-		protected override void Execute() {
-			if (Number<=0)
-				return;
+		protected override void Execute() 
+		{
+			if (Number<=0) return;
 
-			var param = Root.GetComponent<FacadeParameters>();
-			int[] pattern = null;
-			if (param!=null) {
-				pattern=param.wallPattern;
-			}
-
-			for (int i=0;i<Number;i++) {            // spawn the prefabs
-				// Choose a prefab index, either...
-				int index = 0;
-				if (pattern!=null && pattern.Length>0) { // ...given by the pattern from FacadeParameters, or ...
-					index = pattern[i % pattern.Length] % prefabs.Length;
-				} else { // ...(pseudo-)randomly chosen.
-					index = RandomInt(prefabs.Length);
-				}
+			for (int i=0;i<Number;i++) 
+			{
+				int index = RandomInt(prefabs.Length);
 				
 				// Spawn the prefab, using i and the direction vector to determine the position:
 				SpawnPrefab(prefabs[index],
