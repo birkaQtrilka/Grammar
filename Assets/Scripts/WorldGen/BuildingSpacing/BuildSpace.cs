@@ -32,7 +32,7 @@ public class BuildSpace : MonoBehaviour
 
         _clusterID = gameObject.GetInstanceID();
         
-        Cluster startCluster = new (1, Random, _clusterID);
+        Cluster startCluster = new (Random, _clusterID);
         _merger.Add(_clusterID, startCluster );
 
         foreach (BuildSpace link in _links)
