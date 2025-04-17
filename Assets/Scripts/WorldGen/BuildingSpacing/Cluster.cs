@@ -62,7 +62,7 @@ public class Cluster
         Vector2Int firstPos = Cells.Keys.OrderBy(p => p.x + p.y).FirstOrDefault();
         _toDoHouses.Enqueue(firstPos);
         House newHouse;
-        int safety = 1000;
+        int safety = 10000;
         do
         {
             newHouse = Iterate(_toDoHouses.Dequeue());
@@ -85,13 +85,13 @@ public class Cluster
         House house = new(new Rectangle(startPos.x, startPos.y, 1, 1));
         Cells[startPos] = new(startPos, true);
         
-        int safety = 50;
+        int safety = 500;
         while (ExpandChance() && CanExpandRight(house) && safety-- > 0) ExpandRight(house);
-        safety = 50;
+        safety = 500;
         while (ExpandChance() && CanExpandLeft(house) && safety-- > 0)  ExpandLeft(house);
-        safety = 50;
+        safety = 500;
         while (ExpandChance() && CanExpandUp(house) && safety-- > 0)    ExpandUp(house);
-        safety = 50;
+        safety = 500;
         while (ExpandChance() && CanExpandDown(house) && safety-- > 0)  ExpandDown(house);
         return house;
     }
@@ -267,22 +267,6 @@ public class Cluster
         _houses.Add(house);
     }
 
-    public void Draw(Transform prefab, Transform clusterContainer, Transform housesContainer)
-    {
-        var containerInst = GameObject.Instantiate(clusterContainer, housesContainer);
-        containerInst.localPosition = clusterContainer.localPosition;
-        foreach (House item in _houses)
-        {
-            var inst = GameObject.Instantiate(prefab, containerInst);
-            inst.localScale = new Vector3(item.Rect.Width /3f , .1f, item.Rect.Height /3f);
-
-            var corner_TL = new Vector3(item.Rect.X, 1, item.Rect.Y);
-            //magic number 3 is the  scale of the cells
-            corner_TL /= 3f;
-            inst.transform.position = corner_TL;
-        }
-        
-    }
     readonly Vector3[] drawArr = new Vector3[8];
 
     public void DrawCells(int i)
@@ -296,10 +280,10 @@ public class Cluster
             float x1 = (house.Rect.X + house.Rect.Width);
             float y1 = (house.Rect.Y + house.Rect.Height);
 
-            var corner_TL = new Vector3(x,  1 + (i + j) * .1f, y) * .3333f;
-            var corner_TR = new Vector3(x1, 1 + (i + j) * .1f, y) * .3333f;
-            var corner_BR = new Vector3(x1, 1 + (i + j) * .1f, y1) * .3333f;
-            var corner_BL = new Vector3(x,  1 + (i + j) * .1f, y1) * .3333f;
+            var corner_TL = (.3333f * WorldSpawner.CellWidth) * new Vector3(x,  1 + (i + j) * .1f, y);
+            var corner_TR = (.3333f * WorldSpawner.CellWidth) * new Vector3(x1, 1 + (i + j) * .1f, y);
+            var corner_BR = (.3333f * WorldSpawner.CellWidth) * new Vector3(x1, 1 + (i + j) * .1f, y1);
+            var corner_BL = (.3333f * WorldSpawner.CellWidth) * new Vector3( x, 1 + (i + j) * .1f, y1);
             drawArr[0] = corner_TL;
             drawArr[1] = corner_TR;
 
@@ -320,14 +304,14 @@ public class Cluster
 
     public Vector3 GetDrawnCenter()
     {
-        Vector3 min = new Vector3(float.MaxValue, 0, float.MaxValue);
-        Vector3 max = new Vector3(float.MinValue, 0, float.MinValue);
+        Vector3 min = new (float.MaxValue, 0, float.MaxValue);
+        Vector3 max = new (float.MinValue, 0, float.MinValue);
 
         foreach (var house in _houses)
         {
             float x = house.Rect.X;
             float y = house.Rect.Y;
-            var corner_TL = new Vector3(x, .1f, y) * .3333f;
+            Vector3 corner_TL = .3333f * WorldSpawner.CellWidth * new Vector3(x, .1f, y);
             x = corner_TL.x;
             y = corner_TL.z;
             if(x < min.x) min.x = x;

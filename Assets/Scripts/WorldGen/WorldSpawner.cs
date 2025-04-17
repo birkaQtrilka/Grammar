@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Drawing;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using Color = UnityEngine.Color;
@@ -21,7 +22,7 @@ public class WorldSpawner : MonoBehaviour
     public UnityEvent MapGenerated;
 
     readonly WaitForSeconds _clusterMergingTime = new(.2f);
-    float _cellWidth;
+    [SerializeField] float _cellWidth;
 
     [SerializeField] Transform _housesContainer;
     [SerializeField] bool _generateHousesOnStart;
@@ -35,7 +36,14 @@ public class WorldSpawner : MonoBehaviour
     [SerializeField] Transform _cameraSpotTr;
     [SerializeField] float _lodDistance;
     static WorldSpawner _inst;
-    public static float CellWidth => _inst._cellWidth;
+    public static float CellWidth
+    {
+        get
+        {
+            if (_inst == null) _inst = FindAnyObjectByType<WorldSpawner>();
+            return _inst._cellWidth;
+        }
+    }
 
     void Start()
     {
@@ -115,7 +123,7 @@ public class WorldSpawner : MonoBehaviour
                 inst.Width = housePos.Width;
                 inst.Depth = housePos.Height;
                 var randomScale = Random.Range(.4f, .9f);
-                float scale = .33333f ;
+                float scale = .33333f * CellWidth;
                 inst.transform.localScale = scale * randomScale * Vector3.one;
 
                 Vector3 corner_TL = new

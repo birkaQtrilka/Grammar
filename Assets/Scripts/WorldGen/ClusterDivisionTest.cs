@@ -23,15 +23,7 @@ public class ClusterDivisionTest : MonoBehaviour
         if(_generateOnSpawn) GenerateHouses();
     }
 
-    [ContextMenu("CleanupLonelyClusters")]
-    public void CleanupLonelyClusters()
-    {
-        foreach (Cluster cluster in BuildSpace.Clusters)
-        {
-            cluster.GenerateHouses();
-            cluster.Draw(_housePrefab.transform, _clusterContainer, _housesContainer);
-        }
-    }
+
 
     [ContextMenu("GenerateHouses")]
     public void GenerateHouses()
@@ -42,16 +34,6 @@ public class ClusterDivisionTest : MonoBehaviour
         }
     }
     
-    [ContextMenu("DrawHouses")]
-    public void DrawHouses()
-    {   
-        foreach (Cluster cluster in BuildSpace.Clusters)
-        {
-            cluster.Draw(_housePrefab.transform, _clusterContainer, _housesContainer);
-        }
-    }
-
-
 
     [ContextMenu("ClusterData")]
     public void ShowClusterData()
@@ -63,19 +45,10 @@ public class ClusterDivisionTest : MonoBehaviour
         }
     }
 
-    [ContextMenu("Random Cluster")]
-    public void ShowRandomCluster()
-    {
-        var cluster = BuildSpace.Clusters.ToList().GetRandomItem();
-        Debug.Log("Spawning Cluster with id: " + cluster.ID);
-        cluster.GenerateHouses();
-        cluster.Draw(_housePrefab.transform, _clusterContainer, _housesContainer);
-    }
-    
     void OnDrawGizmos()
     {
         var clusters = BuildSpace.Clusters;
-        
+        if (clusters == null) return;   
         int i = 0;
         Gizmos.color = _minMaxClr;
         foreach (Cluster cluster in clusters)

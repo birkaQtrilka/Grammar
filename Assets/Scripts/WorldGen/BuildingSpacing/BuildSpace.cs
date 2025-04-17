@@ -51,15 +51,19 @@ public class BuildSpace : MonoBehaviour
         _isFirst = false;
         
     }
+    void Start()
+    {
+        StartCoroutine(DestroySelf());
 
+    }
     void OnDrawGizmos()
     {
         if (!_showGizmos) return;
 
         Gizmos.color = color;
-        Vector3 dir = (transform.position - transform.parent.position).normalized * .3f;
+        Vector3 dir = .3f * WorldSpawner.CellWidth * (transform.position - transform.parent.position).normalized;
         Gizmos.DrawRay(transform.parent.position, dir);
-        Gizmos.DrawSphere(transform.parent.position+ dir, .1f);
+        Gizmos.DrawSphere(transform.parent.position+ dir, .04f);
     }
 
     void OnEnable()
@@ -81,13 +85,13 @@ public class BuildSpace : MonoBehaviour
     Vector2Int GetGridPosition(Transform target)
     {
         Vector3 dir = (target.position - target.parent.position);
-        if (dir.magnitude > float.Epsilon) dir = dir.normalized * .33f;
+        if (dir.magnitude > float.Epsilon) dir = .3f * WorldSpawner.CellWidth * dir.normalized;
 
         Vector3 worldPos = dir + target.parent.position;
 
         return new Vector2Int(
-            Mathf.FloorToInt(worldPos.x * 3),
-            Mathf.FloorToInt(worldPos.z * 3)
+            Mathf.FloorToInt(worldPos.x * (3 / WorldSpawner.CellWidth)),
+            Mathf.FloorToInt(worldPos.z * (3 / WorldSpawner.CellWidth))
         );
     }
 
@@ -97,7 +101,6 @@ public class BuildSpace : MonoBehaviour
 
         bool isInCluster = _merger[_clusterID].ContainsKey(gridPos);
 
-        StartCoroutine(DestroySelf());
         if (isInCluster) return;
 
         var otherBuildSpace = other.GetComponentInParent<BuildSpace>();
@@ -118,7 +121,7 @@ public class BuildSpace : MonoBehaviour
 
     IEnumerator DestroySelf()
     {
-        yield return null;
+        yield return new WaitForSeconds(.3f);
         gameObject.SetActive(false);
         //Destroy(gameObject);
     }
