@@ -49,6 +49,8 @@ MonoBehaviour:
   buildDelay: 0.1
   stockContinueChance: 0.5
   billBoardSpawnChance: 0.4
+  AntenaSpawnChance: 0.5
+  AntenaRoofSpawnChance: 0.2
   IndentSpawnChance: 0.4
   billBoardMinHeight: 2
   MinHeight: 1
@@ -77,6 +79,8 @@ MonoBehaviour:
   _indent: {fileID: 1833732910365076859, guid: 941b64960c950194ca9dfafb1cf10302, type: 3}
   billboards:
   - {fileID: 2458497736491260231, guid: 3705386b28c3df0408136edeaa0a042b, type: 3}
+  antena: {fileID: 1840765522302324532, guid: a3913d9bcc4607c40806dd5fb38a2188, type: 3}
+  antenaRoof: {fileID: 1840765522302324532, guid: a3913d9bcc4607c40806dd5fb38a2188, type: 3}
 --- !u!114 &8345122083041106080
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,6 +15,8 @@ namespace Demo
         // grammar rule probabilities:
         public float stockContinueChance = 0.2f;
         public float billBoardSpawnChance = 0.0f;
+        public float AntenaSpawnChance = .5f;
+        public float AntenaRoofSpawnChance = .5f;
         public float IndentSpawnChance = .4f;
         public int billBoardMinHeight = 1;
         public int MinHeight = 3;
@@ -32,6 +34,8 @@ namespace Demo
         [SerializeField] LodObject _groundDoor;
         [SerializeField] BlockRow _indent;
         [SerializeField] BillboardStock[] billboards;
+        [SerializeField] Antena antena;
+        [SerializeField] Antena antenaRoof;
 
         int _currentHeight;
 
@@ -69,15 +73,29 @@ namespace Demo
                 nextStock._lastBillBoardSpawed = _lastBillBoardSpawed;
                 nextStock._indent = _indent;
                 nextStock.IndentSpawnChance = IndentSpawnChance;
+                nextStock.antena = antena;
+                nextStock.antenaRoof = antenaRoof;
 
                 nextStock.Initialize(Width, Depth, wallStyle, roofStyle);
                 nextStock.Generate(buildDelay);
             }
             else
             {
-                SimpleRoof nextRoof = CreateSymbol<SimpleRoof>("roof", new Vector3(0, 1, 0));
-                nextRoof.Initialize(Width, Depth, roofStyle, wallStyle);
-                nextRoof.Generate(buildDelay);
+                randomValue = RandomFloat();
+                Debug.Log(randomValue);
+                if(randomValue > AntenaRoofSpawnChance)
+                {
+                    SimpleRoof nextRoof = CreateSymbol<SimpleRoof>("roof", new Vector3(0, 1, 0));
+                    nextRoof.Initialize(Width, Depth, roofStyle, wallStyle, RandomFloat() < AntenaSpawnChance ? this.antena : null);
+                    nextRoof.Generate(buildDelay);
+                    return;
+                }
+                Antena antena = SpawnPrefab(antenaRoof, Vector3.up * 1.5f);
+                float min = .05f;
+                float max = .5f;
+                antena.PrescribedDesigns.Enqueue(0);
+                antena.Init(1, Width, Depth, false, min + RandomFloat() * (max - min) );
+                antena.Generate(buildDelay);
             }
         }
 

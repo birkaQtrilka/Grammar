@@ -77,6 +77,8 @@ MonoBehaviour:
   _indent: {fileID: 1833732910365076859, guid: 941b64960c950194ca9dfafb1cf10302, type: 3}
   billboards:
   - {fileID: 2458497736491260231, guid: 9e0303138e93e7949bfa03268720ce6f, type: 3}
+  antena: {fileID: 1840765522302324532, guid: a3913d9bcc4607c40806dd5fb38a2188, type: 3}
+  antenaRoof: {fileID: 1840765522302324532, guid: a3913d9bcc4607c40806dd5fb38a2188, type: 3}
 --- !u!114 &8345122083041106080
 MonoBehaviour:
   m_ObjectHideFlags: 0

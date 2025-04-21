@@ -280,8 +280,8 @@ public class Cluster
             float x1 = (house.Rect.X + house.Rect.Width);
             float y1 = (house.Rect.Y + house.Rect.Height);
 
-            var corner_TL = (.3333f * WorldSpawner.CellWidth) * new Vector3(x,  1 + (i + j) * .1f, y);
-            var corner_TR = (.3333f * WorldSpawner.CellWidth) * new Vector3(x1, 1 + (i + j) * .1f, y);
+            var corner_TL = (.3333f * WorldSpawner.CellWidth) * new Vector3(x,  1 + (i + j) * .1f, y) ;
+            var corner_TR = (.3333f * WorldSpawner.CellWidth) * new Vector3(x1, 1 + (i + j) * .1f, y) ;
             var corner_BR = (.3333f * WorldSpawner.CellWidth) * new Vector3(x1, 1 + (i + j) * .1f, y1);
             var corner_BL = (.3333f * WorldSpawner.CellWidth) * new Vector3( x, 1 + (i + j) * .1f, y1);
             drawArr[0] = corner_TL;

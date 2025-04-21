@@ -163,7 +163,13 @@ namespace Demo {
 				return Random.value;
 			}
 		}
-				
+
+		protected float RandomFloat(float min, float max)
+		{
+			return min + RandomFloat() * (max - min);
+
+        }
+
 		/// <summary>
 		/// A utility method for selecting a random object from an array (e.g. a random prefab): 
 		/// Uses The RandomGenerator attached to the root object, if that's there.
