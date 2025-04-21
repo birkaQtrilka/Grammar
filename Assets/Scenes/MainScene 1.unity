@@ -1344,7 +1344,7 @@ MonoBehaviour:
   _cellWidth: 1.5
   _housesContainer: {fileID: 1819609002}
   _generateHousesOnStart: 1
-  _spawnHousesOnStart: 0
+  _spawnHousesOnStart: 1
   _heightCenter: {fileID: 1128968412}
   _minBuildingHeight: 4
   _maxBuildingHeight: 30
