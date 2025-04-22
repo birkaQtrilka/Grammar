@@ -49,8 +49,8 @@ MonoBehaviour:
   buildDelay: 0.1
   stockContinueChance: 0.5
   billBoardSpawnChance: 0.4
-  AntenaSpawnChance: 0.5
-  AntenaRoofSpawnChance: 0.2
+  AntenaSpawnChance: 0.8
+  AntenaRoofSpawnChance: 0.5
   IndentSpawnChance: 0.4
   billBoardMinHeight: 2
   MinHeight: 1

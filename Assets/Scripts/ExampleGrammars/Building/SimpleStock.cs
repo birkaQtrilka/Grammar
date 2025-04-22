@@ -36,7 +36,10 @@ namespace Demo
         [SerializeField] BillboardStock[] billboards;
         [SerializeField] Antena antena;
         [SerializeField] Antena antenaRoof;
+        [SerializeField] int AntenaAppearanceChance_StartHeight = 5;
+        [SerializeField] int AntenaAppearanceChance_EndHeight = 15;
 
+        
         int _currentHeight;
 
         public void Initialize(int Width, int Depth, LodObject[] wallStyle, LodObject[] roofStyle)
@@ -83,10 +86,16 @@ namespace Demo
             {
                 randomValue = RandomFloat();
                 Debug.Log(randomValue);
-                if(randomValue > AntenaRoofSpawnChance)
+                float t = Mathf.Clamp01(
+                    (_currentHeight - AntenaAppearanceChance_StartHeight) / 
+                    (float)(AntenaAppearanceChance_EndHeight - AntenaAppearanceChance_StartHeight)
+                );
+
+
+                if(randomValue > AntenaRoofSpawnChance * t)
                 {
                     SimpleRoof nextRoof = CreateSymbol<SimpleRoof>("roof", new Vector3(0, 1, 0));
-                    nextRoof.Initialize(Width, Depth, roofStyle, wallStyle, RandomFloat() < AntenaSpawnChance ? this.antena : null);
+                    nextRoof.Initialize(Width, Depth, roofStyle, wallStyle, RandomFloat() < AntenaSpawnChance * t ? this.antena : null);
                     nextRoof.Generate(buildDelay);
                     return;
                 }
@@ -94,7 +103,7 @@ namespace Demo
                 float min = .05f;
                 float max = .5f;
                 antena.PrescribedDesigns.Enqueue(0);
-                antena.Init(1, Width, Depth, false, min + RandomFloat() * (max - min) );
+                antena.Init(1, Width, Depth, false, RandomFloat(min, max));
                 antena.Generate(buildDelay);
             }
         }
