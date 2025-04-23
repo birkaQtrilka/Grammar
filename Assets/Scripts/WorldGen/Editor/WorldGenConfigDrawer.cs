@@ -1,3 +1,4 @@
+using Codice.Client.BaseCommands;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -15,17 +16,23 @@ public class WorldGenConfigDrawer : Editor
         SO = (WorldGenConfig)target;
         UpdateTileNames();
         _oldTileNamesCount = _tileNames.Length;
-        //SO.DestroyMap();
     }
 
     public override void OnInspectorGUI()
     {
         SO = (WorldGenConfig)target;
         EditorGUI.BeginChangeCheck();
+        DrawGridColumnsField();
+        EditorGUI.EndChangeCheck();
 
-        //serializedObject.Update();
-        if (SO.Grid == null || SO.Grid.GetHorizontalLength() != SO.Columns)
+        EditorGUI.BeginChangeCheck();
+        SerializedProperty apply = serializedObject.FindProperty("_apply");
+        EditorGUILayout.PropertyField(apply);
+        if (apply.boolValue)
         {
+            apply.boolValue = false;
+            serializedObject.ApplyModifiedProperties();
+
             EditorApplication.delayCall += () =>
             {
                 if (SO == null) return;
@@ -36,6 +43,10 @@ public class WorldGenConfigDrawer : Editor
 
                 SaveObject();
             };
+            return;
+        }
+        if (SO.Grid == null || SO.Grid.GetHorizontalLength() != SO.Columns)
+        {
             return;
         }
 
@@ -60,7 +71,6 @@ public class WorldGenConfigDrawer : Editor
         }
 
         DrawSeedField();
-        DrawGridColumnsField();
         DrawSocketCountField();
 
         if (GUILayout.Button("GenerateGridRandom"))

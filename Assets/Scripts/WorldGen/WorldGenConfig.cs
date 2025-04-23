@@ -28,6 +28,7 @@ public class WorldGenConfig : ScriptableObject
     [SerializeField] List<CellAndDir> _neighbours = new();
     [SerializeField] List<GridCell> _prePlacedCells = new();
     [SerializeField, HideInInspector] bool Done;
+    [SerializeField] bool _apply;
     System.Random _random;
 
     public bool drawGrid;

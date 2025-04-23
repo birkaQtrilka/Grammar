@@ -20,7 +20,6 @@ namespace Demo {
 			this.Depth=Depth;
 			this.roofStyle=roofStyle;
 			_antena = antena;
-			Debug.Log("Spawn roof");
 		}
 
 

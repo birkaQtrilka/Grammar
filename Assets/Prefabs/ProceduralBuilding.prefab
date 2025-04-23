@@ -59,8 +59,8 @@ MonoBehaviour:
   wallStyle:
   - High: {fileID: -927199367670048503, guid: 0dfe00013000a524e91c2fc61c13a4c8, type: 3}
     Low: {fileID: 3389769321135412885, guid: 68263c5ffd7c82f4ca3bb44a136d0704, type: 3}
-    HighMat: {fileID: 2100000, guid: 43dccd1a015b0e5428e8a72c501cfcbe, type: 2}
-    LowMat: {fileID: 2100000, guid: 43dccd1a015b0e5428e8a72c501cfcbe, type: 2}
+    HighMat: {fileID: 2100000, guid: 13faae6b1e63c724593b3597170c5d4a, type: 2}
+    LowMat: {fileID: 2100000, guid: 13faae6b1e63c724593b3597170c5d4a, type: 2}
   groundStyle:
   - High: {fileID: -927199367670048503, guid: 84e5114d12c20464080b24e94f6faf23, type: 3}
     Low: {fileID: 3389769321135412885, guid: 48459b8757c0a074889d454ecf68735e, type: 3}
@@ -81,6 +81,8 @@ MonoBehaviour:
   - {fileID: 2458497736491260231, guid: 3705386b28c3df0408136edeaa0a042b, type: 3}
   antena: {fileID: 1840765522302324532, guid: a3913d9bcc4607c40806dd5fb38a2188, type: 3}
   antenaRoof: {fileID: 1840765522302324532, guid: a3913d9bcc4607c40806dd5fb38a2188, type: 3}
+  AntenaAppearanceChance_StartHeight: 5
+  AntenaAppearanceChance_EndHeight: 15
 --- !u!114 &8345122083041106080
 MonoBehaviour:
   m_ObjectHideFlags: 0

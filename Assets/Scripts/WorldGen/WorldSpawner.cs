@@ -71,7 +71,7 @@ public class WorldSpawner : MonoBehaviour
         }
 
         _cellWidth = _size / _config.Grid.GetHorizontalLength();
-
+        _tileHolder.transform.position = new Vector3(_cellWidth, 0 , _cellWidth);
         foreach (GridCell cell in _config.Grid)
         {
             if (cell.tile.Prefab == null) continue;
