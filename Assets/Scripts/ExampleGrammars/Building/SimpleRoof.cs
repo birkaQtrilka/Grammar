@@ -8,7 +8,6 @@ namespace Demo {
 		int Depth;
 
 		LodObject[] roofStyle;
-		LodObject[] wallStyle;
 
 		// (offset) values for the next layer:
 		int newWidth;
@@ -16,11 +15,10 @@ namespace Demo {
 		Antena _antena;
 
 
-		public void Initialize(int Width, int Depth, LodObject[] roofStyle, LodObject[] wallStyle, Antena antena) {
+		public void Initialize(int Width, int Depth, LodObject[] roofStyle, Antena antena) {
 			this.Width=Width;
 			this.Depth=Depth;
 			this.roofStyle=roofStyle;
-			this.wallStyle=wallStyle;
 			_antena = antena;
 			Debug.Log("Spawn roof");
 		}
@@ -69,32 +67,22 @@ namespace Demo {
 			// randomly continue with a roof or a stock:
 			if (newWidth<=0 || newDepth<=0)
 			{
-				if (_antena != null)
-				{
-					int minSide = Mathf.Min(Width, Depth);
-					float startSize = RandomFloat(.2f, .8f);
-					float halfMinSide = minSide * startSize;
-					float randomX = RandomFloat(-halfMinSide, halfMinSide);
-					float randomZ = RandomFloat(-halfMinSide, halfMinSide);
-					Antena antena = SpawnPrefab(_antena, new Vector3(randomX,0,randomZ));
-                    antena.Init( startSize, minSide, minSide, true, RandomFloat(.08f, .2f));
-					antena.Generate();
-					Debug.Log("Spawn roof antena");
-				}
+				if (_antena == null) return;
+				int minSide = Mathf.Min(Width, Depth);
+				float startSize = RandomFloat(.2f, .8f);
+				float halfMinSide = minSide * startSize;
+				float randomX = RandomFloat(-halfMinSide, halfMinSide);
+				float randomZ = RandomFloat(-halfMinSide, halfMinSide);
+				Antena antena = SpawnPrefab(_antena, new Vector3(randomX,0,randomZ));
+                antena.Init( startSize, minSide, minSide, true, RandomFloat(.08f, .2f));
+				antena.Generate();
+				
 				return;
 			}
 
-			//float randomValue = RandomFloat();
-			//if (randomValue<roofContinueChance) { // continue with the roof
-				SimpleRoof nextRoof = CreateSymbol<SimpleRoof>("roof");
-				nextRoof.Initialize(newWidth, newDepth, roofStyle, wallStyle, _antena);
-				nextRoof.Generate(buildDelay);
-
-			//} else { // continue with a stock
-			//	SimpleStock nextStock = CreateSymbol<SimpleStock>("stock");
-			//	nextStock.Initialize(newWidth, newDepth, wallStyle, roofStyle);
-			//	nextStock.Generate(buildDelay);
-			//}
+			SimpleRoof nextRoof = CreateSymbol<SimpleRoof>("roof");
+			nextRoof.Initialize(newWidth, newDepth, roofStyle, _antena);
+			nextRoof.Generate(buildDelay);
 		}
 	}
 }

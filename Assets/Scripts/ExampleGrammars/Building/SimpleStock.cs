@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Demo
 {
@@ -41,6 +42,8 @@ namespace Demo
 
         
         int _currentHeight;
+        Type _currentSegment;
+        Type _previousSegment;
 
         public void Initialize(int Width, int Depth, LodObject[] wallStyle, LodObject[] roofStyle)
         {
@@ -78,6 +81,7 @@ namespace Demo
                 nextStock.IndentSpawnChance = IndentSpawnChance;
                 nextStock.antena = antena;
                 nextStock.antenaRoof = antenaRoof;
+                nextStock._previousSegment = _currentSegment;
 
                 nextStock.Initialize(Width, Depth, wallStyle, roofStyle);
                 nextStock.Generate(buildDelay);
@@ -85,7 +89,6 @@ namespace Demo
             else
             {
                 randomValue = RandomFloat();
-                Debug.Log(randomValue);
                 float t = Mathf.Clamp01(
                     (_currentHeight - AntenaAppearanceChance_StartHeight) / 
                     (float)(AntenaAppearanceChance_EndHeight - AntenaAppearanceChance_StartHeight)
@@ -95,8 +98,9 @@ namespace Demo
                 if(randomValue > AntenaRoofSpawnChance * t)
                 {
                     SimpleRoof nextRoof = CreateSymbol<SimpleRoof>("roof", new Vector3(0, 1, 0));
-                    nextRoof.Initialize(Width, Depth, roofStyle, wallStyle, RandomFloat() < AntenaSpawnChance * t ? this.antena : null);
+                    nextRoof.Initialize(Width, Depth, roofStyle, RandomFloat() < AntenaSpawnChance * t ? this.antena : null);
                     nextRoof.Generate(buildDelay);
+
                     return;
                 }
                 Antena antena = SpawnPrefab(antenaRoof, Vector3.up * 1.5f);
@@ -118,9 +122,11 @@ namespace Demo
                 GroundRow ground = CreateSymbol<GroundRow>("wall", localPosition, Quaternion.Euler(0, i * 90, 0));
                 ground.Initialize(i % 2 == 1 ? Width : Depth, groundStyle, door);
                 ground.Generate();
-            }
-        }
 
+            }
+            _currentSegment = typeof(GroundRow);
+        }
+        
         void SpawnBody()
         {
             for (int i = 0; i < 4; i++)
@@ -130,6 +136,12 @@ namespace Demo
                 newRow.Initialize(i % 2 == 1 ? Width : Depth, wallStyle);
                 newRow.Generate();
             }
+            _currentSegment = typeof(SimpleRow);
+            if (_previousSegment != typeof(BlockRow)) return;
+
+            SimpleRoof cap = CreateSymbol<SimpleRoof>("upperWall", new Vector3(0, 0, 0));
+            cap.Initialize(Width, Depth, roofStyle, null);
+            cap.Generate();
         }
 
         void SpawnSegment()
@@ -141,7 +153,15 @@ namespace Demo
             newRow.Generate();
             newRow.transform.localPosition = Vector3.up * (1 - newRow.Height * .5f);
             //move this instance down, since the indent is smaller than 1 unit
-            transform.localPosition =  Vector3.up * newRow.Height; 
+            transform.localPosition =  Vector3.up * newRow.Height;
+            _currentSegment = typeof(BlockRow);
+
+
+            if (_previousSegment != typeof(SimpleRow)) return;
+
+            SimpleRoof cap = CreateSymbol<SimpleRoof>("upperWall", Vector3.up * (1 - newRow.Height ));
+            cap.Initialize(Width, Depth, roofStyle, null);
+            cap.Generate();
         }
 
         void RandomBillboard()

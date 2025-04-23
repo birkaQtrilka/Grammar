@@ -6,7 +6,7 @@ namespace Demo {
 		int Number;
         LodObject[] prefabs=null;
 		Vector3 direction;
-
+	
 		public void Initialize(int Number, LodObject[] prefabs, Vector3 dir=new Vector3()) {
 			this.Number=Number;
 			this.prefabs=prefabs;
