@@ -83,10 +83,13 @@ public class WorldSpawner : MonoBehaviour
                     ),
                 Quaternion.Euler(90, cell.tile.Rotation, 0), 
                 _tileHolder);
+            if(inst.TryGetComponent<SpriteRenderer>(out var renderer))
+            {
+                renderer.drawMode = SpriteDrawMode.Sliced;
+                renderer.size = Vector2.one;
+            }
+            
 
-            SpriteRenderer renderer = inst.GetComponent<SpriteRenderer>();
-            renderer.drawMode = SpriteDrawMode.Sliced;
-            renderer.size = Vector2.one;
             inst.transform.localScale = new Vector3(_cellWidth, _cellWidth, 1);
         }
     }
