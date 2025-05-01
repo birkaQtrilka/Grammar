@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Hologram
+  m_Name: PinkShader
   m_Shader: {fileID: -6465566751694194690, guid: 6184632fd40b69649a7da81f6a23fb38, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -139,9 +139,9 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FresnelColor: {r: 4, g: 3.781037, b: 0, a: 1}
+    - _FresnelColor: {r: 14.928529, g: 1.0985128, b: 11.708651, a: 1}
     - _HollogramTiling: {r: 12, g: 12, b: 0, a: 0}
-    - _MainColor: {r: 2, g: 1.8905185, b: 0, a: 1}
+    - _MainColor: {r: 0.9169811, g: 0.2058881, b: 0.55472636, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
