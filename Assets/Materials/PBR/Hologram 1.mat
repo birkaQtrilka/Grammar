@@ -126,7 +126,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _ScrollSpeed: 0.02
+    - _ScrollSpeed: 0.06
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -139,9 +139,9 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FresnelColor: {r: 4, g: 3.781037, b: 0, a: 1}
+    - _FresnelColor: {r: 4.0102725, g: 4.0102725, b: 4.0102725, a: 1}
     - _HollogramTiling: {r: 12, g: 12, b: 0, a: 0}
-    - _MainColor: {r: 2, g: 1.8905185, b: 0, a: 1}
+    - _MainColor: {r: 40.21415, g: 6.9101624, b: 4.4766665, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -1,5 +1,6 @@
 using Demo;
 using UnityEditor;
+using UnityEditor.Sprites;
 using UnityEngine;
 
 [InitializeOnLoad]
@@ -24,16 +25,7 @@ public static class StockSelector
 
         GameObject picked = HandleUtility.PickGameObject(e.mousePosition, false);
         if (picked == null) return;
-        //selecting tile
-        if (picked.layer == LayerMask.NameToLayer("Tile"))
-        {
-            BuildSpace clusterPiece = picked.GetComponentInChildren<BuildSpace>(true);
-            if (clusterPiece == null || !BuildSpace.TryGetCluster(clusterPiece.ClusterID, out Cluster cluster)) return;
-            GizmosDrawer.Instance.PersistentCall = () => cluster.DrawCells(0);
-            SceneView.lastActiveSceneView.LookAt(cluster.GetDrawnCenter() + Vector3.up * 5);
-            Debug.Log("clusterID " + clusterPiece.ClusterID);
-            return;
-        }
+        if(SelectTile(picked)) return;
 
         GameObject topMost = FindTopmostSimpleStock(picked);
 
@@ -60,5 +52,17 @@ public static class StockSelector
         }
 
         return topMostWithStock;
+    }
+
+    static bool SelectTile(GameObject pickedObj)
+    {
+        if (pickedObj.layer != LayerMask.NameToLayer("Tile")) return false;
+
+        BuildSpace clusterPiece = pickedObj.transform.parent.GetComponentInChildren<BuildSpace>(true);
+        if (clusterPiece == null || !BuildSpace.TryGetCluster(clusterPiece.ClusterID, out Cluster cluster)) return false;
+        GizmosDrawer.Instance.PersistentCall = () => cluster.DrawCells(0);
+        SceneView.lastActiveSceneView.LookAt(cluster.GetDrawnCenter() + Vector3.up * 5);
+        Debug.Log("clusterID " + clusterPiece.ClusterID);
+        return true; 
     }
 }
