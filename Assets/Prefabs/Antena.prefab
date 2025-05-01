@@ -48,12 +48,12 @@ MonoBehaviour:
   _designs:
   - High: {fileID: 8936645901617474312, guid: a804f4d56c72b404587d12b6c8ff2175, type: 3}
     Low: {fileID: 8936645901617474312, guid: a804f4d56c72b404587d12b6c8ff2175, type: 3}
-    HighMat: {fileID: 2100000, guid: 43dccd1a015b0e5428e8a72c501cfcbe, type: 2}
-    LowMat: {fileID: 2100000, guid: 43dccd1a015b0e5428e8a72c501cfcbe, type: 2}
+    HighMat: {fileID: 2100000, guid: 8962c71fa0c777b4ba01542485e937b9, type: 2}
+    LowMat: {fileID: 2100000, guid: 8962c71fa0c777b4ba01542485e937b9, type: 2}
   - High: {fileID: 8118676903521167970, guid: a84a2a12308c0f54890e7d277a24ca3f, type: 3}
     Low: {fileID: 8118676903521167970, guid: a84a2a12308c0f54890e7d277a24ca3f, type: 3}
-    HighMat: {fileID: 2100000, guid: 43dccd1a015b0e5428e8a72c501cfcbe, type: 2}
-    LowMat: {fileID: 2100000, guid: 43dccd1a015b0e5428e8a72c501cfcbe, type: 2}
+    HighMat: {fileID: 2100000, guid: 8962c71fa0c777b4ba01542485e937b9, type: 2}
+    LowMat: {fileID: 2100000, guid: 8962c71fa0c777b4ba01542485e937b9, type: 2}
   _shapes:
   - serializedVersion: 2
     m_Curve:

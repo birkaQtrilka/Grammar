@@ -48,6 +48,6 @@ MonoBehaviour:
   prefabs:
   - High: {fileID: 265933342989659596, guid: fc7ca057aa02e2349b1a864eb8fd4642, type: 3}
     Low: {fileID: 265933342989659596, guid: fc7ca057aa02e2349b1a864eb8fd4642, type: 3}
-    HighMat: {fileID: 0}
-    LowMat: {fileID: 0}
+    HighMat: {fileID: 2100000, guid: 58b898a7b507c0e459c8c2f1429cf240, type: 2}
+    LowMat: {fileID: 2100000, guid: 58b898a7b507c0e459c8c2f1429cf240, type: 2}
   _indentDepth: 0.07
