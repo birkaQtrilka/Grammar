@@ -145,7 +145,6 @@ MonoBehaviour:
   CurrentStatePreset: " <sbspreset pkgurl=\"pkg://Building\" label=\"\" >\n  <presetinput
     identifier=\"$outputsize\" uid=\"3759360357\" type=\"8\" value=\"9,9\" />\n 
     <presetinput identifier=\"$randomseed\" uid=\"3076611895\" type=\"4\" value=\"6949\"
-    />\n  <presetinput identifier=\"Shutters\" uid=\"2171019841\" type=\"0\" value=\"0.086\"
     />\n  <presetinput identifier=\"Window_Colors\" uid=\"2170586148\" type=\"2\"
     value=\"0.45,0,1\" />\n  <presetinput identifier=\"Windows_Random\" uid=\"2170586162\"
     type=\"2\" value=\"1,-1.55,-2.65\" />\n </sbspreset>\n"
@@ -215,7 +214,7 @@ MonoBehaviour:
           GuiDescription: Shutters, no shutters
           Type: 0
           WidgetType: 1
-        Data: 0.086
+        Data: 0
         NumericalDescription:
           DefaultValue: 0
           MinValue: 0

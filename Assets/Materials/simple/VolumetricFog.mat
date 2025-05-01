@@ -137,8 +137,8 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FogEnd: {r: 22.6, g: 1, b: 10, a: 1}
-    - _FogStart: {r: -6.67, g: 0, b: -17.8, a: 0}
+    - _FogEnd: {r: 22.6, g: 1, b: 10.9, a: 1}
+    - _FogStart: {r: -6.67, g: 0, b: -19.27, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
