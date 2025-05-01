@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1901032611640655822}
   m_Layer: 0
-  m_Name: BillBoard
+  m_Name: BillBoard 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
