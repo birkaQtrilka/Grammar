@@ -1,0 +1,269 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eed5864476f84ce4b85454db09ca4eaa, type: 3}
+  m_Name: graph_0_copy_c2opy
+  m_EditorClassIdentifier: 
+  AssetPath: Assets/Materials/Substance/Building_v1.sbsar
+  RawData: {fileID: -244192453324840774, guid: 397c58760ac342649bb6aafb6460204a, type: 3}
+  Name: graph_0_copy_copy
+  IsRoot: 0
+  FlagedForDelete: 0
+  GUID: 3d94d80a-8b13-44dc-8a60-d1394bb8670b
+  Index: 0
+  Input:
+  - rid: 4208280154283442186
+  - rid: 4208280154283442187
+  - rid: 4208280154283442188
+  - rid: 4208280154283442189
+  - rid: 4208280154283442190
+  Output:
+  - Index: 0
+    VirtualOutputIndex: 7
+    Description:
+      Identifier: basecolor
+      Label: basecolor
+      Index: 0
+      Type: 8
+      Channel: baseColor
+    OutputTexture: {fileID: 2800000, guid: 05a76da5a171cd944814a92231ef6778, type: 3}
+    sRGB: 1
+    IsVirtual: 0
+    IsAlphaAssignable: 1
+    AlphaChannel: 
+    InvertAssignedAlpha: 0
+    Flags: 0
+    MaterialTextureTarget: _BaseMap
+  - Index: 1
+    VirtualOutputIndex: 8
+    Description:
+      Identifier: normal
+      Label: normal
+      Index: 1
+      Type: 8
+      Channel: normal
+    OutputTexture: {fileID: 2800000, guid: bc7c0c5430e9f654b8ee1830ad03ccd9, type: 3}
+    sRGB: 0
+    IsVirtual: 0
+    IsAlphaAssignable: 0
+    AlphaChannel: 
+    InvertAssignedAlpha: 0
+    Flags: 0
+    MaterialTextureTarget: _BumpMap
+  - Index: 2
+    VirtualOutputIndex: 9
+    Description:
+      Identifier: roughness
+      Label: roughness
+      Index: 2
+      Type: 8
+      Channel: roughness
+    OutputTexture: {fileID: 0}
+    sRGB: 0
+    IsVirtual: 0
+    IsAlphaAssignable: 1
+    AlphaChannel: 
+    InvertAssignedAlpha: 0
+    Flags: 0
+    MaterialTextureTarget: _RoughnessMap
+  - Index: 3
+    VirtualOutputIndex: 10
+    Description:
+      Identifier: metallic
+      Label: metallic
+      Index: 3
+      Type: 8
+      Channel: metallic
+    OutputTexture: {fileID: 2800000, guid: dfd35316c5209754eb42f4739bfde1ba, type: 3}
+    sRGB: 0
+    IsVirtual: 0
+    IsAlphaAssignable: 1
+    AlphaChannel: roughness
+    InvertAssignedAlpha: 1
+    Flags: 0
+    MaterialTextureTarget: _MetallicGlossMap
+  - Index: 4
+    VirtualOutputIndex: 11
+    Description:
+      Identifier: height
+      Label: height
+      Index: 4
+      Type: 8
+      Channel: height
+    OutputTexture: {fileID: 2800000, guid: 879b14062eab9704aabc230a2aaafb87, type: 3}
+    sRGB: 1
+    IsVirtual: 0
+    IsAlphaAssignable: 1
+    AlphaChannel: 
+    InvertAssignedAlpha: 0
+    Flags: 0
+    MaterialTextureTarget: _ParallaxMap
+  - Index: 5
+    VirtualOutputIndex: 12
+    Description:
+      Identifier: ambientocclusion
+      Label: ambientocclusion
+      Index: 5
+      Type: 8
+      Channel: ambientOcclusion
+    OutputTexture: {fileID: 2800000, guid: 7ef8c5e90a023554db94ee959de004c2, type: 3}
+    sRGB: 0
+    IsVirtual: 0
+    IsAlphaAssignable: 1
+    AlphaChannel: 
+    InvertAssignedAlpha: 0
+    Flags: 0
+    MaterialTextureTarget: _OcclusionMap
+  - Index: 6
+    VirtualOutputIndex: 13
+    Description:
+      Identifier: Emissive
+      Label: Emissive
+      Index: 6
+      Type: 8
+      Channel: emissive
+    OutputTexture: {fileID: 2800000, guid: 924f19e506915c6428a50889b961e9f8, type: 3}
+    sRGB: 1
+    IsVirtual: 0
+    IsAlphaAssignable: 1
+    AlphaChannel: 
+    InvertAssignedAlpha: 0
+    Flags: 0
+    MaterialTextureTarget: _EmissionMap
+  HasPhysicalSize: 0
+  PhysicalSize: {x: 0, y: 0, z: 0}
+  EnablePhysicalSize: 0
+  Thumbnail: 
+  CurrentStatePreset: " <sbspreset pkgurl=\"pkg://Building\" label=\"\" >\n  <presetinput
+    identifier=\"$outputsize\" uid=\"3759360357\" type=\"8\" value=\"9,9\" />\n 
+    <presetinput identifier=\"$randomseed\" uid=\"3076611895\" type=\"4\" value=\"1265\"
+    />\n  <presetinput identifier=\"Shutters\" uid=\"2171019841\" type=\"0\" value=\"0.307\"
+    />\n  <presetinput identifier=\"Window_Colors\" uid=\"2170586148\" type=\"2\"
+    value=\"0.58,0,0\" />\n  <presetinput identifier=\"Windows_Random\" uid=\"2170586162\"
+    type=\"2\" value=\"0.17,0.48,0\" />\n </sbspreset>\n"
+  IsRuntimeOnly: 0
+  GenerateAllOutputs: 0
+  GenerateAllMipmaps: 1
+  OutputMaterial: {fileID: 2100000, guid: b2edd1d50104370499bac2edf017ab2b, type: 2}
+  DefaultPreset: " <sbspreset pkgurl=\"pkg://Building\" label=\"\" >\n  <presetinput
+    identifier=\"$outputsize\" uid=\"3759360357\" type=\"8\" value=\"10,10\" />\n 
+    <presetinput identifier=\"Shutters\" uid=\"2171019841\" type=\"0\" value=\"0.307\"
+    />\n  <presetinput identifier=\"Window_Colors\" uid=\"2170586148\" type=\"2\"
+    value=\"1.29,1.49,0.62\" />\n  <presetinput identifier=\"Windows_Random\" uid=\"2170586162\"
+    type=\"2\" value=\"0.55,4.96,1.61\" />\n </sbspreset>\n"
+  MaterialShader: Universal Render Pipeline/Lit
+  RenderTextures: 1
+  OutputRemaped: 1
+  Presets: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 4208280154283442186
+      type: {class: SubstanceInputInt2, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 0
+        Description:
+          Identifier: $outputsize
+          Label: $outputsize
+          GuiGroup: 
+          GuiDescription: 
+          Type: 5
+          WidgetType: 0
+        Data: {x: 9, y: 9}
+        NumericalDescription:
+          DefaultValue: {x: 8, y: 8}
+          MinValue: {x: 0, y: 0}
+          MaxValue: {x: 1, y: 1}
+          SliderClamp: 0
+          EnumValueCount: 0
+          EnumValues: []
+    - rid: 4208280154283442187
+      type: {class: SubstanceInputInt, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 1
+        Description:
+          Identifier: $randomseed
+          Label: $randomseed
+          GuiGroup: 
+          GuiDescription: 
+          Type: 4
+          WidgetType: 0
+        Data: 1265
+        NumericalDescription:
+          DefaultValue: 0
+          MinValue: 0
+          MaxValue: 1
+          SliderStep: 0.01
+          SliderClamp: 0
+          LabelFalse: 
+          LabelTrue: 
+          EnumValueCount: 0
+          EnumValues: []
+    - rid: 4208280154283442188
+      type: {class: SubstanceInputFloat, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 2
+        Description:
+          Identifier: Shutters
+          Label: Level In Low
+          GuiGroup: 
+          GuiDescription: Shutters, no shutters
+          Type: 0
+          WidgetType: 1
+        Data: 0.307
+        NumericalDescription:
+          DefaultValue: 0
+          MinValue: 0
+          MaxValue: 1
+          SliderStep: 0.01
+          SliderClamp: 0
+          EnumValueCount: 0
+          EnumValues: []
+    - rid: 4208280154283442189
+      type: {class: SubstanceInputFloat3, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 3
+        Description:
+          Identifier: Window_Colors
+          Label: HSL Adjustment
+          GuiGroup: 
+          GuiDescription: 
+          Type: 2
+          WidgetType: 1
+        Data: {x: 0.58, y: 0, z: 0}
+        NumericalDescription:
+          DefaultValue: {x: 0, y: 0, z: 0}
+          MinValue: {x: -1, y: -1, z: -1}
+          MaxValue: {x: 1, y: 1, z: 1}
+          SliderStep: 0.01
+          SliderClamp: 1
+          EnumValueCount: 0
+          EnumValues: []
+    - rid: 4208280154283442190
+      type: {class: SubstanceInputFloat3, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 4
+        Description:
+          Identifier: Windows_Random
+          Label: HSL Random
+          GuiGroup: 
+          GuiDescription: 
+          Type: 2
+          WidgetType: 1
+        Data: {x: 0.17, y: 0.48, z: 0}
+        NumericalDescription:
+          DefaultValue: {x: 0, y: 0, z: 0}
+          MinValue: {x: -1, y: -1, z: -1}
+          MaxValue: {x: 1, y: 1, z: 1}
+          SliderStep: 0.01
+          SliderClamp: 0
+          EnumValueCount: 0
+          EnumValues: []
