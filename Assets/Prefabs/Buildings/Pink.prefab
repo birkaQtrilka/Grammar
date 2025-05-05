@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8345122083041106080}
   - component: {fileID: 8345122083041106083}
   m_Layer: 0
-  m_Name: ProceduralBuilding 2
+  m_Name: Pink
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,26 +59,26 @@ MonoBehaviour:
   wallStyle:
   - High: {fileID: -927199367670048503, guid: 0dfe00013000a524e91c2fc61c13a4c8, type: 3}
     Low: {fileID: 3389769321135412885, guid: 68263c5ffd7c82f4ca3bb44a136d0704, type: 3}
-    HighMat: {fileID: 2100000, guid: 13faae6b1e63c724593b3597170c5d4a, type: 2}
-    LowMat: {fileID: 2100000, guid: 13faae6b1e63c724593b3597170c5d4a, type: 2}
+    HighMat: {fileID: 2100000, guid: eb2c47a5c68046d4e880a42a3b40fdf7, type: 2}
+    LowMat: {fileID: 2100000, guid: eb2c47a5c68046d4e880a42a3b40fdf7, type: 2}
   - High: {fileID: -927199367670048503, guid: 0dfe00013000a524e91c2fc61c13a4c8, type: 3}
     Low: {fileID: 3389769321135412885, guid: 68263c5ffd7c82f4ca3bb44a136d0704, type: 3}
-    HighMat: {fileID: 2100000, guid: 44152049e73a0244c9a4b3821c96811f, type: 2}
-    LowMat: {fileID: 2100000, guid: 44152049e73a0244c9a4b3821c96811f, type: 2}
+    HighMat: {fileID: 2100000, guid: 66334a85e5d6d8d4ab676b14effb2f06, type: 2}
+    LowMat: {fileID: 2100000, guid: 66334a85e5d6d8d4ab676b14effb2f06, type: 2}
   - High: {fileID: -927199367670048503, guid: 0dfe00013000a524e91c2fc61c13a4c8, type: 3}
     Low: {fileID: 3389769321135412885, guid: 68263c5ffd7c82f4ca3bb44a136d0704, type: 3}
-    HighMat: {fileID: 2100000, guid: 598334de169c0804caacaa6ab56779f4, type: 2}
-    LowMat: {fileID: 2100000, guid: 598334de169c0804caacaa6ab56779f4, type: 2}
+    HighMat: {fileID: 2100000, guid: 260aeaa4c1d8e2746bc60344e96c30d2, type: 2}
+    LowMat: {fileID: 2100000, guid: 260aeaa4c1d8e2746bc60344e96c30d2, type: 2}
   groundStyle:
   - High: {fileID: -927199367670048503, guid: 84e5114d12c20464080b24e94f6faf23, type: 3}
     Low: {fileID: 3389769321135412885, guid: 48459b8757c0a074889d454ecf68735e, type: 3}
-    HighMat: {fileID: 2100000, guid: 43dccd1a015b0e5428e8a72c501cfcbe, type: 2}
-    LowMat: {fileID: 2100000, guid: 43dccd1a015b0e5428e8a72c501cfcbe, type: 2}
+    HighMat: {fileID: 2100000, guid: 8962c71fa0c777b4ba01542485e937b9, type: 2}
+    LowMat: {fileID: 2100000, guid: 8962c71fa0c777b4ba01542485e937b9, type: 2}
   roofStyle:
   - High: {fileID: -927199367670048503, guid: 20ce4895fadfac84d827e8a2db9526f6, type: 3}
     Low: {fileID: 3389769321135412885, guid: d2011418dba75e44685b01e4a0e98476, type: 3}
-    HighMat: {fileID: 2100000, guid: ac978c874622f3146991af069bae627b, type: 2}
-    LowMat: {fileID: 2100000, guid: ac978c874622f3146991af069bae627b, type: 2}
+    HighMat: {fileID: 2100000, guid: 4b6d5069a48a9dc4da4fb42850449de7, type: 2}
+    LowMat: {fileID: 2100000, guid: 4b6d5069a48a9dc4da4fb42850449de7, type: 2}
   - High: {fileID: -927199367670048503, guid: 20ce4895fadfac84d827e8a2db9526f6, type: 3}
     Low: {fileID: 3389769321135412885, guid: d2011418dba75e44685b01e4a0e98476, type: 3}
     HighMat: {fileID: 2100000, guid: 4b6d5069a48a9dc4da4fb42850449de7, type: 2}
