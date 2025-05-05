@@ -105,8 +105,8 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 1.68
-    - _CutoffEnd: 2.84
-    - _CutoffStart: 0.51
+    - _CutoffEnd: 5.56
+    - _CutoffStart: 2.51
     - _DensityMultiplier: 0.05
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
@@ -135,7 +135,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.540588, g: 0.94716984, b: 0.35563537, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FogEnd: {r: 22.6, g: 1, b: 10.9, a: 1}
     - _FogStart: {r: -6.67, g: 0, b: -19.27, a: 0}

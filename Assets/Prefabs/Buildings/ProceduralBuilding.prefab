@@ -57,15 +57,15 @@ MonoBehaviour:
   Width: 4
   Depth: 4
   wallStyle:
-  - High: {fileID: -927199367670048503, guid: 0dfe00013000a524e91c2fc61c13a4c8, type: 3}
+  - High: {fileID: -927199367670048503, guid: 6200df9d6339e864db615a682bfcbe9f, type: 3}
     Low: {fileID: 3389769321135412885, guid: 68263c5ffd7c82f4ca3bb44a136d0704, type: 3}
     HighMat: {fileID: 2100000, guid: 13faae6b1e63c724593b3597170c5d4a, type: 2}
     LowMat: {fileID: 2100000, guid: 13faae6b1e63c724593b3597170c5d4a, type: 2}
-  - High: {fileID: -927199367670048503, guid: 0dfe00013000a524e91c2fc61c13a4c8, type: 3}
+  - High: {fileID: -927199367670048503, guid: 6200df9d6339e864db615a682bfcbe9f, type: 3}
     Low: {fileID: 3389769321135412885, guid: 68263c5ffd7c82f4ca3bb44a136d0704, type: 3}
     HighMat: {fileID: 2100000, guid: 44152049e73a0244c9a4b3821c96811f, type: 2}
     LowMat: {fileID: 2100000, guid: 44152049e73a0244c9a4b3821c96811f, type: 2}
-  - High: {fileID: -927199367670048503, guid: 0dfe00013000a524e91c2fc61c13a4c8, type: 3}
+  - High: {fileID: -927199367670048503, guid: 6200df9d6339e864db615a682bfcbe9f, type: 3}
     Low: {fileID: 3389769321135412885, guid: 68263c5ffd7c82f4ca3bb44a136d0704, type: 3}
     HighMat: {fileID: 2100000, guid: 598334de169c0804caacaa6ab56779f4, type: 2}
     LowMat: {fileID: 2100000, guid: 598334de169c0804caacaa6ab56779f4, type: 2}
