@@ -75,6 +75,18 @@ MonoBehaviour:
     Low: {fileID: 3389769321135412885, guid: d92323d20a223f94da93b94653631115, type: 3}
     HighMat: {fileID: 2100000, guid: 7f87fc6d1400d3a4486fdff757587907, type: 2}
     LowMat: {fileID: 2100000, guid: 7f87fc6d1400d3a4486fdff757587907, type: 2}
+  - High: {fileID: 3389769321135412885, guid: ea7427110ffb80c45b5f4f4864eca935, type: 3}
+    Low: {fileID: 3389769321135412885, guid: 3ee9943c14a8a7949a097e942490e76d, type: 3}
+    HighMat: {fileID: 2100000, guid: 4211a8cf7c2bbb44ca036ce9959b6453, type: 2}
+    LowMat: {fileID: 2100000, guid: 4211a8cf7c2bbb44ca036ce9959b6453, type: 2}
+  - High: {fileID: 3389769321135412885, guid: 0feea7b631103af4c89156e79456d404, type: 3}
+    Low: {fileID: 3389769321135412885, guid: d92323d20a223f94da93b94653631115, type: 3}
+    HighMat: {fileID: 2100000, guid: 4211a8cf7c2bbb44ca036ce9959b6453, type: 2}
+    LowMat: {fileID: 2100000, guid: 4211a8cf7c2bbb44ca036ce9959b6453, type: 2}
+  - High: {fileID: 3389769321135412885, guid: 3cc6a33aa7a00a24aaef02cbc01f02d6, type: 3}
+    Low: {fileID: 3389769321135412885, guid: ae1bb49d539ccc7458e08a5ab4e07802, type: 3}
+    HighMat: {fileID: 2100000, guid: 4211a8cf7c2bbb44ca036ce9959b6453, type: 2}
+    LowMat: {fileID: 2100000, guid: 4211a8cf7c2bbb44ca036ce9959b6453, type: 2}
   bodyStyle:
   - High: {fileID: 3389769321135412885, guid: 3cc6a33aa7a00a24aaef02cbc01f02d6, type: 3}
     Low: {fileID: 3389769321135412885, guid: ae1bb49d539ccc7458e08a5ab4e07802, type: 3}
