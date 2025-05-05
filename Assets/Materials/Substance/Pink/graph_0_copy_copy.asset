@@ -144,10 +144,10 @@ MonoBehaviour:
   Thumbnail: 
   CurrentStatePreset: " <sbspreset pkgurl=\"pkg://Building\" label=\"\" >\n  <presetinput
     identifier=\"$outputsize\" uid=\"3759360357\" type=\"8\" value=\"9,9\" />\n 
-    <presetinput identifier=\"$randomseed\" uid=\"3076611895\" type=\"4\" value=\"2952\"
-    />\n  <presetinput identifier=\"Shutters\" uid=\"2171019841\" type=\"0\" value=\"0.307\"
+    <presetinput identifier=\"$randomseed\" uid=\"3076611895\" type=\"4\" value=\"412\"
+    />\n  <presetinput identifier=\"Shutters\" uid=\"2171019841\" type=\"0\" value=\"0.479\"
     />\n  <presetinput identifier=\"Window_Colors\" uid=\"2170586148\" type=\"2\"
-    value=\"1,0,0\" />\n  <presetinput identifier=\"Windows_Random\" uid=\"2170586162\"
+    value=\"0.26,0,0\" />\n  <presetinput identifier=\"Windows_Random\" uid=\"2170586162\"
     type=\"2\" value=\"0.17,0.48,0\" />\n </sbspreset>\n"
   IsRuntimeOnly: 0
   GenerateAllOutputs: 0
@@ -160,8 +160,8 @@ MonoBehaviour:
     value=\"1.29,1.49,0.62\" />\n  <presetinput identifier=\"Windows_Random\" uid=\"2170586162\"
     type=\"2\" value=\"0.55,4.96,1.61\" />\n </sbspreset>\n"
   MaterialShader: Universal Render Pipeline/Lit
-  RenderTextures: 1
-  OutputRemaped: 1
+  RenderTextures: 0
+  OutputRemaped: 0
   Presets: []
   references:
     version: 2
@@ -238,7 +238,7 @@ MonoBehaviour:
           GuiDescription: 
           Type: 2
           WidgetType: 1
-        Data: {x: 1, y: 0, z: 0}
+        Data: {x: 0.26, y: 0, z: 0}
         NumericalDescription:
           DefaultValue: {x: 0, y: 0, z: 0}
           MinValue: {x: -1, y: -1, z: -1}

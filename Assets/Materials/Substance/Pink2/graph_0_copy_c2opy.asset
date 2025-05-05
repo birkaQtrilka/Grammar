@@ -160,8 +160,8 @@ MonoBehaviour:
     value=\"1.29,1.49,0.62\" />\n  <presetinput identifier=\"Windows_Random\" uid=\"2170586162\"
     type=\"2\" value=\"0.55,4.96,1.61\" />\n </sbspreset>\n"
   MaterialShader: Universal Render Pipeline/Lit
-  RenderTextures: 0
-  OutputRemaped: 0
+  RenderTextures: 1
+  OutputRemaped: 1
   Presets: []
   references:
     version: 2

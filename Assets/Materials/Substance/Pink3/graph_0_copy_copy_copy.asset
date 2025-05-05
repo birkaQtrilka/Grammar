@@ -146,8 +146,8 @@ MonoBehaviour:
     identifier=\"$outputsize\" uid=\"3759360357\" type=\"8\" value=\"10,10\" />\n 
     <presetinput identifier=\"$randomseed\" uid=\"3076611895\" type=\"4\" value=\"1047\"
     />\n  <presetinput identifier=\"Window_Colors\" uid=\"2170586148\" type=\"2\"
-    value=\"0.65,0,0\" />\n  <presetinput identifier=\"Windows_Random\" uid=\"2170586162\"
-    type=\"2\" value=\"0.17,0.48,0\" />\n </sbspreset>\n"
+    value=\"0.52,0,0\" />\n  <presetinput identifier=\"Windows_Random\" uid=\"2170586162\"
+    type=\"2\" value=\"-0.47,0.38,0\" />\n </sbspreset>\n"
   IsRuntimeOnly: 0
   GenerateAllOutputs: 0
   GenerateAllMipmaps: 1
@@ -238,7 +238,7 @@ MonoBehaviour:
           GuiDescription: 
           Type: 2
           WidgetType: 1
-        Data: {x: 0.65, y: 0, z: 0}
+        Data: {x: 0.52, y: 0, z: 0}
         NumericalDescription:
           DefaultValue: {x: 0, y: 0, z: 0}
           MinValue: {x: -1, y: -1, z: -1}
@@ -258,7 +258,7 @@ MonoBehaviour:
           GuiDescription: 
           Type: 2
           WidgetType: 1
-        Data: {x: 0.17, y: 0.48, z: 0}
+        Data: {x: -0.47, y: 0.38, z: 0}
         NumericalDescription:
           DefaultValue: {x: 0, y: 0, z: 0}
           MinValue: {x: -1, y: -1, z: -1}
